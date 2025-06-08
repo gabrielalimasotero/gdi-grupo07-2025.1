@@ -20,11 +20,13 @@ _Modelagem e consultas em um banco de dados NoSQL para um sistema de farmácia, 
 ├── sgbd/              # Materiais do projeto Comic Center (SGBD relacional)
 │   ├── diagramas/         # Diagramas EER e ER
 │   ├── scripts/           # Scripts SQL
+│   ├── feedbacks/         # Correções a implementar
 │   └── minimundos/        # Descrições textuais do Comic Center
 │
 ├── mongodb/           # Materiais do projeto Farmácia (NoSQL)
 │   ├── modelos/           # Modelagem em MongoDB
 │   ├── consultas/         # Exemplos de consultas e scripts MongoDB
+│   ├── feedbacks/         # Correções a implementar
 │   └── minimundos/        # Descrições textuais do sistema de farmácia
 │
 ├── README.md          # Este arquivo
