@@ -1,4 +1,4 @@
-# 🏪 Minimundo – Comic Center
+# 🏪 Minimundo – Comic Center (current)
 
 Este documento apresenta o **Minimundo** do projeto **Comic Center**, desenvolvido para a disciplina **Gerenciamento de Dados e Informação – UFPE** (Grupo 07).
 
