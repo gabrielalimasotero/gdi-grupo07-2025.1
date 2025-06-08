@@ -1,5 +1,5 @@
 
-# 📈 Diagrama ER – AV2
+# 📈 Diagrama ER – AV2 (será atualizado a cada entrega)
 
 Este documento apresenta o diagrama ER em **Mermaid** utilizado para a **Avaliação AV2** do projeto **Comic Center** na disciplina **Gerenciamento de Dados e Informação – UFPE**.
 
