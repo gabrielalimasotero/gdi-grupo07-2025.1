@@ -13,6 +13,7 @@ Este projeto faz parte da disciplina **Gerenciamento de Dados e Informação –
 📦 sgbd/
 ├── diagramas/         # Diagramas EER e ER do Comic Center
 ├── feedbacks/         # Feedbacks para correção na próxima entrega
+├── normalização/      # Documentação e justificativas das formas normais aplicadas a cada relação
 ├── scripts/           # Scripts SQL para criação e manipulação do banco
 ├── minimundos/        # Descrições textuais do minimundo Comic Center
 ├── README.md          # Este arquivo
