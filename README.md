@@ -20,6 +20,7 @@ _Modelagem e consultas em um banco de dados NoSQL para um sistema de farmácia, 
 ├── sgbd/              # Materiais do projeto Comic Center (SGBD relacional)
 │   ├── diagramas/         # Diagramas EER e ER
 │   ├── scripts/           # Scripts SQL
+│   ├── normalização/      # Documentação e justificativas das formas normais aplicadas a cada relação
 │   ├── feedbacks/         # Correções a implementar
 │   └── minimundos/        # Descrições textuais do Comic Center
 │
