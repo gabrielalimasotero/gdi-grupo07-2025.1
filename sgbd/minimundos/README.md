@@ -1,4 +1,5 @@
-# 🏪 Minimundo – Comic Center (current)
+
+# 🏪 Minimundo – Comic Center (AV2)
 
 Este documento apresenta o **Minimundo** do projeto **Comic Center**, desenvolvido para a disciplina **Gerenciamento de Dados e Informação – UFPE** (Grupo 07).
 
@@ -28,72 +29,57 @@ O foco é no controle local de estoque, sem entregas ou encomendas.
   - Atributos: CPF (PK), Nome, Email, Telefone (multivalorado).
 
 - **Funcionário** (especialização de Pessoa):  
-  Representa funcionários da loja.  
   - Atributos: Cargo, Salário, Endereço (CEP, Rua, Número), Data de Admissão.
 
 - **Cliente** (especialização de Pessoa):  
-  Representa clientes da loja.  
   - Atributo: Num_Eventos_Participados.
 
 - **Quadrinhos**:  
-  Representa os quadrinhos em estoque ou vendidos.  
   - Atributos: ID (PK), Nome, Gênero, Preço, Estoque, Periodicidade, Edição.
 
 - **Evento**:  
-  Representa eventos presenciais organizados pela loja.  
   - Atributos: ID (PK), Nome, Data, Tipo_Evento, Duração.
 
 - **VendeProduto** (entidade associativa):  
-  Representa a venda de um produto, podendo ter desconto associado.  
   - Atributo: ID (PK).
 
 - **Desconto** (entidade fraca):  
-  Representa descontos associados a vendas.  
   - Atributos: Valor, Cupom.
 
 - **Lote**:  
-  Representa o lote de quadrinhos recebidos.  
   - Atributos: ID (PK), Valor Unitário, Quantidade, Data de Entrega.
 
 - **Fornecedor**:  
-  Representa empresas fornecedoras de quadrinhos.  
   - Atributos: CNPJ (PK), Nome, Telefone.
 
 ---
 
 ## 🔗 Relacionamentos
 
-- **Inscreve (temporal)**:  
-  Um cliente se inscreve em um evento.  
+- **Inscreve (temporal)**: Cliente se inscreve em Evento.  
   - Atributo: Data_Inscrição.  
-  - Cardinalidade: mínima 0, máxima N (cliente e evento).
-
-- **Organiza**:  
-  Um funcionário organiza eventos.  
-  - Cardinalidade: mínima 1 (funcionário) para 1 evento, máxima N.
-
-- **Tem**:  
-  Liga **VendeProduto** com a entidade fraca **Desconto**.  
   - Cardinalidade: mínima 0, máxima N.
 
-- **Supervisiona (auto-relacionamento)**:  
-  Funcionário pode supervisionar outros funcionários.  
+- **Organiza**: Funcionário organiza Evento.  
+  - Cardinalidade: mínima 1, máxima N.
+
+- **Tem**: VendeProduto pode ter um Desconto.  
   - Cardinalidade: mínima 0, máxima N.
 
-- **Vende (relacionamento triplo)**:  
-  Relaciona **Funcionário, Cliente e Quadrinhos**.  
+- **Supervisiona (auto-relacionamento)**: Funcionário supervisiona outros.  
+  - Cardinalidade: mínima 0, máxima N.
+
+- **Vende (relacionamento triplo)**: Relaciona Funcionário, Cliente e Quadrinhos.  
   - Atributo: Data_Compra.  
   - Cardinalidade: mínima 1:1:1, máxima N:N:1.
 
-- **Fornece (relacionamento triplo)**:  
-  Relaciona **Fornecedor, Lote e Quadrinhos**.  
+- **Fornece (relacionamento triplo)**: Relaciona Fornecedor, Lote e Quadrinhos.  
   - Cardinalidade: mínima 1:1:1, máxima N:N:N.
 
 ---
 
 ## 📌 Observação
 
-Este minimundo foi adaptado e revisado conforme feedbacks recebidos, garantindo clareza e consistência para a modelagem do banco de dados.
+Este minimundo está atualizado para a **AV2** e foi revisado conforme feedbacks recebidos.
 
 ---
-
