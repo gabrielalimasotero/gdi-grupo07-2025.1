@@ -1,0 +1,141 @@
+
+# 📈 Diagrama ER – AV2
+
+Este documento apresenta o diagrama ER em **Mermaid** utilizado para a **Avaliação AV2** do projeto **Comic Center** na disciplina **Gerenciamento de Dados e Informação – UFPE**.
+
+O diagrama foi revisado e modificado de acordo com o **feedback da AV1**, garantindo que todos os requisitos mínimos foram atendidos e que as correções foram aplicadas.
+
+---
+
+## ✅ Requisitos mínimos atendidos e explicações
+
+- **Mínimo de 4 entidades regulares:** Cumprido com as entidades **PESSOA, FUNCIONARIO, CLIENTE, QUADRINHOS, EVENTO, LOTE, FORNECEDOR**.
+- **Entidade fraca:** Cumprida com a entidade **DESCONTO**, que depende da entidade associativa **VENDE**.
+- **Entidade associativa:** Cumprida com **VENDE** representando o relacionamento triplo entre Funcionário, Cliente e Quadrinhos.
+- **Auto-relacionamento:** Cumprido com **SUPERVISAO**, indicando a relação de supervisão entre funcionários.
+- **Relacionamento temporal:** Cumprido com **INSCRICAO**, onde a data de inscrição é registrada.
+- **Especializações:** Cumpridas com a relação de especialização de **PESSOA** para **FUNCIONARIO** e **CLIENTE**.
+- **Relacionamento triplo:** Cumprido explicitamente com a entidade associativa **VENDE** conectando **FUNCIONARIO, CLIENTE e QUADRINHOS**.
+
+---
+
+## 🔧 Modificações feitas de acordo com o feedback da AV1
+
+- Corrigida a **cardinalidade mínima de ORGANIZA**, que agora exige que **todo evento tenha pelo menos 1 funcionário responsável** (mínima = 1).
+- Corrigida a **cardinalidade mínima do relacionamento triplo FORNECE** para refletir que **todo quadrinho deve vir de um lote de um fornecedor** (mínima = 1:1:1).
+- Corrigida a **descrição de DESCONTO**, garantindo que seus atributos e dependência com a entidade associativa **VENDE** estejam claros.
+- Ajustada a **máxima do relacionamento triplo VENDE** para garantir que **cada venda (Cliente-Quadrinhos) tenha apenas 1 funcionário vinculado**, não múltiplos.
+- Garantida a **consistência entre minimundo e diagrama**, refletindo corretamente as relações e especializações.
+
+---
+
+## 📋 Diagrama ER em Mermaid
+
+```mermaid
+erDiagram
+    %% ✅ Entidades regulares (mínimo de 4) - Cumprido!
+    PESSOA {
+        string CPF PK
+        string Nome
+        string Email
+        string Telefone
+    }
+
+    FUNCIONARIO {
+        string Cargo
+        float Salario
+        string CEP
+        string Rua
+        int Numero
+        date DataAdmissao
+    }
+
+    CLIENTE {
+        int NumEventosParticipados
+    }
+
+    QUADRINHOS {
+        int ID PK
+        string Nome
+        string Genero
+        float Preco
+        int Estoque
+        string Periodicidade
+        string Edicao
+    }
+
+    EVENTO {
+        int ID PK
+        string Nome
+        date Data
+        string TipoEvento
+        int Duracao
+    }
+
+    %% ✅ Entidade associativa (VENDE) - Cumprido!
+    VENDE {
+        date DataCompra
+    }
+
+    %% ✅ Entidade fraca (DESCONTO) - Cumprido!
+    DESCONTO {
+        float Valor
+        string Cupom
+    }
+
+    LOTE {
+        int ID PK
+        float ValorUnitario
+        int Quantidade
+        date DataEntrega
+    }
+
+    FORNECEDOR {
+        string CNPJ PK
+        string Nome
+        string Telefone
+    }
+
+    %% ✅ Auto-relacionamento (SUPERVISAO) - Cumprido!
+    SUPERVISAO {
+        string SupervisorCPF FK
+        string SupervisionadoCPF FK
+    }
+
+    %% ✅ Relacionamento temporal (INSCRICAO) - Cumprido!
+    INSCRICAO {
+        date DataInscricao
+    }
+
+    %% ✅ Especializações (Pessoa → Funcionário, Cliente) - Cumprido!
+    PESSOA ||--|| FUNCIONARIO: "especializa (1:1)"
+    PESSOA ||--|| CLIENTE: "especializa (1:1)"
+
+    %% Relacionamentos principais e correções do feedback
+    FUNCIONARIO ||--o{ EVENTO: "Organiza (mínima 1, máxima N)"
+    CLIENTE ||--o{ INSCRICAO: "Inscreve (0:N)"
+    EVENTO ||--o{ INSCRICAO: "Inscreve (0:N)"
+    
+    %% ✅ Relacionamento triplo (VENDE) - Cumprido!
+    FUNCIONARIO ||--o{ VENDE: "Vende (máxima 1 funcionário por venda)"
+    CLIENTE ||--o{ VENDE: "Vende (1:N)"
+    QUADRINHOS ||--o{ VENDE: "Vende (1:N)"
+    
+    VENDE ||--|| DESCONTO: "Tem (0:1 a 1:N)"
+    
+    FORNECEDOR ||--o{ LOTE: "Fornece (mínima 1)"
+    LOTE ||--o{ QUADRINHOS: "Fornece (mínima 1)"
+    FORNECEDOR ||--o{ QUADRINHOS: "Fornece (mínima 1)"
+    
+    FUNCIONARIO ||--o{ SUPERVISAO: "supervisiona (0:N)"
+    SUPERVISAO ||--|| FUNCIONARIO: "supervisiona (0:N)"
+```
+
+---
+
+## 📌 Observação
+
+Este diagrama está pronto para visualização em plataformas que suportam Mermaid (ex.: Mermaid Live Editor, VS Code com extensão Markdown Preview Mermaid Support).  
+Fique à vontade para abrir uma issue ou sugestão de melhoria!
+
+---
