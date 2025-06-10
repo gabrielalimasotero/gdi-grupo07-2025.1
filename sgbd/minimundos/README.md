@@ -1,85 +1,139 @@
+Minimundo AV1 
+Loja de Quadrinhos (tipo a de The Big Bang Theory).
 
-# 🏪 Minimundo – Comic Center (AV2)
+1. Descrição do mundo real
+A aplicação modela uma loja física de quadrinhos, semelhante à retratada em séries como The Big Bang Theory. A loja vende quadrinhos presencialmente, organiza eventos como campeonatos e lançamentos, e é operada por funcionários. O foco é no controle local de estoque, sem entregas ou encomendas.
 
-Este documento apresenta o **Minimundo** do projeto **Comic Center**, desenvolvido para a disciplina **Gerenciamento de Dados e Informação – UFPE** (Grupo 07).
+2. Objetivos da Aplicação
+Gerenciar vendas e controle de estoque;
+Controlar cadastro de produtos e fornecedores;
+Registrar a participação dos clientes em eventos;
+Suportar análises sobre vendas, estoque e engajamento dos clientes.
 
----
+3. Descrição das entidades
+Pessoa (disjunto, obrigatório)
+Descrição: Entidade que representa os indivíduos que estão envolvidos na aplicação. A entidade especializa-se em Funcionário e Cliente.
+Atributos:
+CPF (Chave primária)
+Nome
+Email
+Telefone (atributo multivalorado)
 
-## 🎯 Descrição do mundo real
+Funcionário (especialização de Pessoa)
+Descrição: Entidade especializada de Pessoa que herda seus atributos, representa os Funcionários da loja de quadrinhos.
+Atributos:
+Cargo
+Salário
+Ativo
+Endereço (atributo composto: CEP, Rua, Número)
+Data de Admissão
 
-A aplicação modela uma loja física de quadrinhos, semelhante à retratada em séries como The Big Bang Theory.  
-A loja vende quadrinhos presencialmente, organiza eventos como campeonatos e lançamentos, e é operada por funcionários.  
-O foco é no controle local de estoque, sem entregas ou encomendas.
+Cliente (especialização de Pessoa)
+Descrição: Entidade especializada de Pessoa que herda seus atributos, representa os clientes da loja de quadrinhos. Clientes compram e participam de eventos.
+Atributos:
+Num_Eventos_Participados
 
----
 
-## 🎯 Objetivos da aplicação
+Quadrinhos
+Descrição: Entidade que representa os quadrinhos em estoque ou vendidos pela loja.
+Atributos:
+ID (Chave primária)
+Nome
+Gênero
+Preço
+Estoque
+Periodicidade
+Edição
 
-1. Gerenciar vendas e controle de estoque.  
-2. Controlar cadastro de produtos e fornecedores.  
-3. Registrar a participação dos clientes em eventos.  
-4. Suportar análises sobre vendas, estoque e engajamento dos clientes.
+Evento
+Descrição: Representa eventos presenciais organizados pela loja.
+Atributos:
+ID (Chave primária)
+Nome
+Data
+Tipo_Evento (lançamento, campeonato etc.);
+Duração
 
----
+VendeProduto (Entidade associativa)
+Descrição: Entidade responsável por representar a venda de um produto que pode está ou não associado a um desconto.
+Atributos:
+ID (Chave primária)
 
-## 📦 Entidades
+Desconto (Entidade fraca)
+Descrição: Representa o desconto de uma compra, podendo ser aplicado ou não​.  
+Atributos:
+Valor
+Cupom (Chave discriminadora)
 
-- **Pessoa** (disjunto, obrigatório):  
-  Representa os indivíduos envolvidos (Cliente ou Funcionário).  
-  - Atributos: CPF (PK), Nome, Email, Telefone (multivalorado).
+Lote
+Descrição: Representa o lote de quadrinhos recebido pela loja.
+Atributos:
+ID (Chave primária)
+Valor unitário
+Quantidade
+Data de entrega
 
-- **Funcionário** (especialização de Pessoa):  
-  - Atributos: Cargo, Salário, Endereço (CEP, Rua, Número), Data de Admissão.
+Fornecedor
+Descrição: Representa empresas fornecedoras de quadrinhos
+Atributos:
+CNPJ (Chave primária)
+Nome
+Telefone
 
-- **Cliente** (especialização de Pessoa):  
-  - Atributo: Num_Eventos_Participados.
+4. Descrição dos relacionamentos
+Inscreve
+Descrição: É um relacionamento temporal por que depende da data de inscrição do cliente no evento, que, através da data de inscrição, inscreve um Cliente em um Evento.
+Atributos: Data_Inscrição 
+Cardinalidade:  
+Minima: 0(Cliente):0(Evento)
+Máxima: N:N
 
-- **Quadrinhos**:  
-  - Atributos: ID (PK), Nome, Gênero, Preço, Estoque, Periodicidade, Edição.
+Organiza
+Descrição:  Funcionário organiza eventos. A loja permite que apenas 1 funcionário seja responsável por cada evento.
+Atributos: N/A
+Cardinalidade:  
+Mínima: 1(Funcionário):0(Evento)
+Máxima: 1:N	 
 
-- **Evento**:  
-  - Atributos: ID (PK), Nome, Data, Tipo_Evento, Duração.
+Tem
+Descrição: Responsável por identificar a entidade fraca “Desconto” associada à entidade associativa “VendeProduto”
+Atributos: N/A
+Cardinalidade:
+Mínima: 0(VendeProduto):1(Desconto)
+Máxima: 1:1
+		 		
+Supervisiona
+Descrição: Auto-relacionamento de funcionários, indicando que um funcionário por ser supervisor de outros funcionários.
+Atributos: N/A
+Cardinalidade:
+Mínima: 0:0
+Máxima: 1(Supervisor):N(Supervisionado)
+Vende (Relacionamento triplo)
+Descrição: Relacionamento entre Funcionário, Quadrinhos e Cliente. Responsável pela compra (por parte do Cliente) e venda (por parte do Funcionário), dos quadrinhos. 
+Atributos: 
+Data_Compra
+Cardinalidade: 
+Mínima: 1:1:1
+Máxima: N:N:N 
 
-- **VendeProduto** (entidade associativa):  
-  - Atributo: ID (PK).
+Fornece (Relacionamento triplo)
+Descrição: Relaciona Fornecedor, Lote e Quadrinhos.
+Atributos: N/A
+Cardinalidade:​
+Mínim​a: 1:1:1​
+Máxima: N:N:N
 
-- **Desconto** (entidade fraca):  
-  - Atributos: Valor, Cupom.
+5. Possíveis Perguntas
+Quantos clientes distintos compraram um quadrinho específico?
+Quantos eventos ocorreram em um determinado período de tempo?
+Qual funcionário vendeu mais quadrinhos?
+Qual funcionário organizou mais eventos em um determinado período de tempo?
+O que acontece se um funcionário for removido mas estiver vinculado a uma venda?
+Quantos quadrinhos foram vendidos em um mês específico?
 
-- **Lote**:  
-  - Atributos: ID (PK), Valor Unitário, Quantidade, Data de Entrega.
-
-- **Fornecedor**:  
-  - Atributos: CNPJ (PK), Nome, Telefone.
-
----
-
-## 🔗 Relacionamentos
-
-- **Inscreve (temporal)**: Cliente se inscreve em Evento.  
-  - Atributo: Data_Inscrição.  
-  - Cardinalidade: mínima 0, máxima N.
-
-- **Organiza**: Funcionário organiza Evento.  
-  - Cardinalidade: mínima 1, máxima N.
-
-- **Tem**: VendeProduto pode ter um Desconto.  
-  - Cardinalidade: mínima 0, máxima N.
-
-- **Supervisiona (auto-relacionamento)**: Funcionário supervisiona outros.  
-  - Cardinalidade: mínima 0, máxima N.
-
-- **Vende (relacionamento triplo)**: Relaciona Funcionário, Cliente e Quadrinhos.  
-  - Atributo: Data_Compra.  
-  - Cardinalidade: mínima 1:1:1, máxima N:N:1.
-
-- **Fornece (relacionamento triplo)**: Relaciona Fornecedor, Lote e Quadrinhos.  
-  - Cardinalidade: mínima 1:1:1, máxima N:N:N.
-
----
-
-## 📌 Observação
-
-Este minimundo está atualizado para a **AV2** e foi revisado conforme feedbacks recebidos.
-
----
+6. Possíveis Relatórios
+Quais os itens mais vendidos na loja?
+Qual o histórico de compras de um cliente?
+Quais clientes participaram de mais eventos?
+Quais quadrinhos estão com estoque crítico?
+Quais eventos ocorreram em determinado período?
