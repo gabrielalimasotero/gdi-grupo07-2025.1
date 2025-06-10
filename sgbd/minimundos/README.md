@@ -1,139 +1,142 @@
-Minimundo AV1 
-Loja de Quadrinhos (tipo a de The Big Bang Theory).
+# Minimundo AV1 – Loja de Quadrinhos
 
-1. Descrição do mundo real
-A aplicação modela uma loja física de quadrinhos, semelhante à retratada em séries como The Big Bang Theory. A loja vende quadrinhos presencialmente, organiza eventos como campeonatos e lançamentos, e é operada por funcionários. O foco é no controle local de estoque, sem entregas ou encomendas.
+Este projeto modela uma loja física de quadrinhos inspirada em séries como *The Big Bang Theory*. A loja vende quadrinhos presencialmente, organiza eventos como campeonatos e lançamentos, e conta com funcionários para operação e organização.
 
-2. Objetivos da Aplicação
-Gerenciar vendas e controle de estoque;
-Controlar cadastro de produtos e fornecedores;
-Registrar a participação dos clientes em eventos;
-Suportar análises sobre vendas, estoque e engajamento dos clientes.
+---
 
-3. Descrição das entidades
-Pessoa (disjunto, obrigatório)
-Descrição: Entidade que representa os indivíduos que estão envolvidos na aplicação. A entidade especializa-se em Funcionário e Cliente.
-Atributos:
-CPF (Chave primária)
-Nome
-Email
-Telefone (atributo multivalorado)
+## 1. Descrição do Mundo Real
 
-Funcionário (especialização de Pessoa)
-Descrição: Entidade especializada de Pessoa que herda seus atributos, representa os Funcionários da loja de quadrinhos.
-Atributos:
-Cargo
-Salário
-Ativo
-Endereço (atributo composto: CEP, Rua, Número)
-Data de Admissão
+A aplicação representa uma loja física de quadrinhos. Seu foco é o controle local de estoque e a realização de eventos. Não há entregas ou encomendas.
 
-Cliente (especialização de Pessoa)
-Descrição: Entidade especializada de Pessoa que herda seus atributos, representa os clientes da loja de quadrinhos. Clientes compram e participam de eventos.
-Atributos:
-Num_Eventos_Participados
+---
 
+## 2. Objetivos da Aplicação
 
-Quadrinhos
-Descrição: Entidade que representa os quadrinhos em estoque ou vendidos pela loja.
-Atributos:
-ID (Chave primária)
-Nome
-Gênero
-Preço
-Estoque
-Periodicidade
-Edição
+- Gerenciar vendas e controle de estoque
+- Controlar cadastro de produtos e fornecedores
+- Registrar a participação dos clientes em eventos
+- Suportar análises sobre vendas, estoque e engajamento dos clientes
 
-Evento
-Descrição: Representa eventos presenciais organizados pela loja.
-Atributos:
-ID (Chave primária)
-Nome
-Data
-Tipo_Evento (lançamento, campeonato etc.);
-Duração
+---
 
-VendeProduto (Entidade associativa)
-Descrição: Entidade responsável por representar a venda de um produto que pode está ou não associado a um desconto.
-Atributos:
-ID (Chave primária)
+## 3. Descrição das Entidades
 
-Desconto (Entidade fraca)
-Descrição: Representa o desconto de uma compra, podendo ser aplicado ou não​.  
-Atributos:
-Valor
-Cupom (Chave discriminadora)
+### Pessoa (disjunto, obrigatório)
+- **Descrição:** Representa indivíduos envolvidos na loja. Especializa-se em Funcionário e Cliente.
+- **Atributos:**
+  - CPF (chave primária)
+  - Nome
+  - Email
+  - Telefone (multivalorado)
 
-Lote
-Descrição: Representa o lote de quadrinhos recebido pela loja.
-Atributos:
-ID (Chave primária)
-Valor unitário
-Quantidade
-Data de entrega
+### Funcionário (especialização de Pessoa)
+- **Descrição:** Representa funcionários da loja.
+- **Atributos:**
+  - Cargo
+  - Salário
+  - Ativo
+  - Endereço (CEP, Rua, Número)
+  - Data de Admissão
 
-Fornecedor
-Descrição: Representa empresas fornecedoras de quadrinhos
-Atributos:
-CNPJ (Chave primária)
-Nome
-Telefone
+### Cliente (especialização de Pessoa)
+- **Descrição:** Representa clientes que compram quadrinhos e participam de eventos.
+- **Atributos:**
+  - Num_Eventos_Participados
 
-4. Descrição dos relacionamentos
-Inscreve
-Descrição: É um relacionamento temporal por que depende da data de inscrição do cliente no evento, que, através da data de inscrição, inscreve um Cliente em um Evento.
-Atributos: Data_Inscrição 
-Cardinalidade:  
-Minima: 0(Cliente):0(Evento)
-Máxima: N:N
+### Quadrinhos
+- **Descrição:** Representa quadrinhos em estoque ou vendidos.
+- **Atributos:**
+  - ID (chave primária)
+  - Nome
+  - Gênero
+  - Preço
+  - Estoque
+  - Periodicidade
+  - Edição
 
-Organiza
-Descrição:  Funcionário organiza eventos. A loja permite que apenas 1 funcionário seja responsável por cada evento.
-Atributos: N/A
-Cardinalidade:  
-Mínima: 1(Funcionário):0(Evento)
-Máxima: 1:N	 
+### Evento
+- **Descrição:** Representa eventos presenciais organizados pela loja.
+- **Atributos:**
+  - ID (chave primária)
+  - Nome
+  - Data
+  - Tipo_Evento (lançamento, campeonato etc.)
+  - Duração
 
-Tem
-Descrição: Responsável por identificar a entidade fraca “Desconto” associada à entidade associativa “VendeProduto”
-Atributos: N/A
-Cardinalidade:
-Mínima: 0(VendeProduto):1(Desconto)
-Máxima: 1:1
-		 		
-Supervisiona
-Descrição: Auto-relacionamento de funcionários, indicando que um funcionário por ser supervisor de outros funcionários.
-Atributos: N/A
-Cardinalidade:
-Mínima: 0:0
-Máxima: 1(Supervisor):N(Supervisionado)
-Vende (Relacionamento triplo)
-Descrição: Relacionamento entre Funcionário, Quadrinhos e Cliente. Responsável pela compra (por parte do Cliente) e venda (por parte do Funcionário), dos quadrinhos. 
-Atributos: 
-Data_Compra
-Cardinalidade: 
-Mínima: 1:1:1
-Máxima: N:N:N 
+### VendeProduto (entidade associativa)
+- **Descrição:** Representa a venda de um produto, com ou sem desconto.
+- **Atributos:**
+  - ID (chave primária)
 
-Fornece (Relacionamento triplo)
-Descrição: Relaciona Fornecedor, Lote e Quadrinhos.
-Atributos: N/A
-Cardinalidade:​
-Mínim​a: 1:1:1​
-Máxima: N:N:N
+### Desconto (entidade fraca)
+- **Descrição:** Representa um desconto que pode ser aplicado a uma compra.
+- **Atributos:**
+  - Valor
+  - Cupom (chave discriminadora)
 
-5. Possíveis Perguntas
-Quantos clientes distintos compraram um quadrinho específico?
-Quantos eventos ocorreram em um determinado período de tempo?
-Qual funcionário vendeu mais quadrinhos?
-Qual funcionário organizou mais eventos em um determinado período de tempo?
-O que acontece se um funcionário for removido mas estiver vinculado a uma venda?
-Quantos quadrinhos foram vendidos em um mês específico?
+### Lote
+- **Descrição:** Representa lotes de quadrinhos recebidos.
+- **Atributos:**
+  - ID (chave primária)
+  - Valor unitário
+  - Quantidade
+  - Data de entrega
 
-6. Possíveis Relatórios
-Quais os itens mais vendidos na loja?
-Qual o histórico de compras de um cliente?
-Quais clientes participaram de mais eventos?
-Quais quadrinhos estão com estoque crítico?
-Quais eventos ocorreram em determinado período?
+### Fornecedor
+- **Descrição:** Representa fornecedores de quadrinhos.
+- **Atributos:**
+  - CNPJ (chave primária)
+  - Nome
+  - Telefone
+
+---
+
+## 4. Descrição dos Relacionamentos
+
+### Inscreve
+- **Descrição:** Inscrição do cliente em um evento.
+- **Atributos:** Data_Inscrição
+- **Cardinalidade:** (Cliente) 0:N — 0:N (Evento)
+
+### Organiza
+- **Descrição:** Funcionário organiza eventos (um responsável por evento).
+- **Cardinalidade:** (Funcionário) 1:1 — 0:N (Evento)
+
+### Tem
+- **Descrição:** Identifica o desconto (Desconto) associado à venda (VendeProduto).
+- **Cardinalidade:** (VendeProduto) 0:1 — 1:1 (Desconto)
+
+### Supervisiona
+- **Descrição:** Auto-relacionamento indicando supervisão entre funcionários.
+- **Cardinalidade:** (Supervisor) 0:1 — 0:N (Supervisionado)
+
+### Vende (relacionamento triplo)
+- **Descrição:** Compra e venda de quadrinhos (Cliente, Funcionário, Quadrinhos).
+- **Atributos:** Data_Compra
+- **Cardinalidade:** 1:1:1 — N:N:N
+
+### Fornece (relacionamento triplo)
+- **Descrição:** Relaciona Fornecedor, Lote e Quadrinhos.
+- **Cardinalidade:** 1:1:1 — N:N:N
+
+---
+
+## 5. Possíveis Perguntas
+
+- Quantos clientes distintos compraram um quadrinho específico?
+- Quantos eventos ocorreram em um determinado período?
+- Qual funcionário vendeu mais quadrinhos?
+- Qual funcionário organizou mais eventos em um período?
+- O que acontece se um funcionário for removido mas estiver vinculado a uma venda?
+- Quantos quadrinhos foram vendidos em um mês específico?
+
+---
+
+## 6. Possíveis Relatórios
+
+- Quais os itens mais vendidos na loja?
+- Histórico de compras de um cliente
+- Quais clientes participaram de mais eventos?
+- Quadrinhos com estoque crítico
+- Eventos que ocorreram em um período específico
+
