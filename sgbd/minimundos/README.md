@@ -1,29 +1,16 @@
 # Minimundo – Loja de Quadrinhos (AV1)
-[current](https://docs.google.com/document/d/14fISroQGGKWpOCCcORue4w9zgTj-Fa42GlfTILRQcdI/edit?usp=sharing)
+[Current](https://docs.google.com/document/d/14fISroQGGKWpOCCcORue4w9zgTj-Fa42GlfTILRQcdI/edit?usp=sharing)
 
 # Universidade Federal de Pernambuco - UFPE  
 ## Centro de Informática - CIn
-
-# Loja de Quadrinhos
-
 ## AV2 - Esquema Relacional Normalizado  
-Gerenciamento de Dados e Informação - 2025.1
 
-### Grupo 9
-- Douglas Ventura da Silva Ferreira - dvsf  
-- Gabriela Lima Sotero - gls5  
-- Ithalo Rannieri Araujo Soares - iras  
-- João Antonio de Lima Reis - jalr  
-- Lucas de Melo Lima Oliveira - lmlo
-
----
-
-## Minimundo
-
-Loja de Quadrinhos (inspirada em The Big Bang Theory).
-
-### Histórico
-A aplicação modela uma loja física de quadrinhos, semelhante à retratada em séries como The Big Bang Theory. A loja vende quadrinhos presencialmente, organiza eventos como campeonatos e lançamentos, e é operada por funcionários. O foco é no controle local de estoque, sem entregas ou encomendas.
+🔧 Modificações feitas de acordo com o feedback da AV1
+Corrigida a cardinalidade mínima de ORGANIZA (mínima = 1 funcionário).
+Corrigida a cardinalidade mínima do relacionamento triplo FORNECE (mínima = 1:1:1).
+Corrigida a descrição de DESCONTO e sua vinculação à entidade associativa VENDE.
+Ajustada a máxima do relacionamento triplo VENDE para apenas 1 funcionário por venda.
+Garantida a consistência entre minimundo e diagrama.
 
 ### Objetivos da Aplicação
 - Gerenciar vendas e controle de estoque.  
