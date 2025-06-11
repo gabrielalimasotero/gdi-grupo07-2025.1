@@ -34,27 +34,33 @@ O diagrama foi revisado e modificado de acordo com o **feedback da AV1**, garant
 ```mermaid
 erDiagram
     PESSOA {
-        string CPF PK
+        string CPF
         string Nome
         string Email
+    }
+    TELEFONE_PESSOA {
+        string CPF_Pessoa
         string Telefone
     }
-
     FUNCIONARIO {
+        string CPF_Funcionario
         string Cargo
         float Salario
+        boolean Ativo
+        date Data_Admissao
+        string CEP
+    }
+    ENDERECO {
         string CEP
         string Rua
         int Numero
-        date DataAdmissao
     }
-
     CLIENTE {
-        int NumEventosParticipados
+        string CPF_Cliente
+        int Num_eventos_participados
     }
-
     QUADRINHOS {
-        int ID PK
+        int ID
         string Nome
         string Genero
         float Preco
@@ -62,65 +68,72 @@ erDiagram
         string Periodicidade
         string Edicao
     }
-
     EVENTO {
-        int ID PK
+        int ID
         string Nome
         date Data
-        string TipoEvento
-        int Duracao
+        string Tipo_Evento
+        string Duracao
+        string Organizador
     }
-
-    VENDE {
-        date DataCompra
+    INSCRICAO {
+        int ID_Evento
+        string CPF_Cliente
+        date Data_Inscricao
     }
-
+    VENDEPRODUTO {
+        int ID
+        int ID_Quadrinho
+        string CPF_Funcionario
+        string CPF_Cliente
+        date Data_Compra
+    }
     DESCONTO {
+        int ID_Venda
         float Valor
         string Cupom
     }
-
-    LOTE {
-        int ID PK
-        float ValorUnitario
-        int Quantidade
-        date DataEntrega
-    }
-
     FORNECEDOR {
-        string CNPJ PK
+        string CNPJ
         string Nome
         string Telefone
     }
-
-    SUPERVISAO {
-        string SupervisorCPF FK
-        string SupervisionadoCPF FK
+    LOTE {
+        int ID
+        float Valor_Unitario
+        int Quantidade
+        date Data_Entrega
+    }
+    FORNECE {
+        int ID_Lote
+        int ID_Quadrinho
+        string CNPJ_Fornecedor
+    }
+    SUPERVISIONA {
+        string CPF_Supervisor
+        string CPF_Supervisionado
     }
 
-    INSCRICAO {
-        date DataInscricao
-    }
+    %% Relacionamentos
+    PESSOA ||--o| TELEFONE_PESSOA: "possui"
+    PESSOA ||--|| FUNCIONARIO: "é"
+    PESSOA ||--|| CLIENTE: "é"
+    FUNCIONARIO ||--|| ENDERECO: "tem"
+    FUNCIONARIO ||--o| SUPERVISIONA: "supervisiona"
+    FUNCIONARIO ||--o| EVENTO: "organiza"
+    FUNCIONARIO ||--o| VENDEPRODUTO: "vende"
+    CLIENTE ||--o| INSCRICAO: "inscreve-se"
+    CLIENTE ||--o| VENDEPRODUTO: "compra"
+    EVENTO ||--o| INSCRICAO: "tem inscrição"
+    QUADRINHOS ||--o| VENDEPRODUTO: "é vendido"
+    VENDEPRODUTO ||--o| DESCONTO: "tem"
+    FORNECEDOR ||--o| FORNECE: "fornece"
+    LOTE ||--o| FORNECE: "faz parte"
+    QUADRINHOS ||--o| FORNECE: "é entregue"
 
-    PESSOA ||--|| FUNCIONARIO: "especializa (1:1)"
-    PESSOA ||--|| CLIENTE: "especializa (1:1)"
-
-    FUNCIONARIO ||--o{ EVENTO: "Organiza (mínima 1, máxima N)"
-    CLIENTE ||--o{ INSCRICAO: "Inscreve (0:N)"
-    EVENTO ||--o{ INSCRICAO: "Inscreve (0:N)"
-
-    FUNCIONARIO ||--o{ VENDE: "Vende (máxima 1 funcionário por venda)"
-    CLIENTE ||--o{ VENDE: "Vende (1:N)"
-    QUADRINHOS ||--o{ VENDE: "Vende (1:N)"
-
-    VENDE ||--|| DESCONTO: "Tem (0:1 a 1:N)"
-
-    FORNECEDOR ||--o{ LOTE: "Fornece (mínima 1)"
-    LOTE ||--o{ QUADRINHOS: "Fornece (mínima 1)"
-    FORNECEDOR ||--o{ QUADRINHOS: "Fornece (mínima 1)"
-
-    FUNCIONARIO ||--o{ SUPERVISAO: "supervisiona (0:N)"
-    SUPERVISAO ||--|| FUNCIONARIO: "supervisiona (0:N)"
+%% Legenda para chaves (PK / FK):
+%% PK: CPF, ID, CNPJ, etc.
+%% FK: CEP, CPF_Pessoa, Organizador, ID_Quadrinho, CPF_Funcionario, CPF_Cliente, ID_Evento, ID_Venda, ID_Lote, CNPJ_Fornecedor
 ```
 
 ---
