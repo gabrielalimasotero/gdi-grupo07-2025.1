@@ -1,7 +1,7 @@
 # Minimundo – Loja de Quadrinhos (AV2)
 [Current](https://docs.google.com/document/d/14fISroQGGKWpOCCcORue4w9zgTj-Fa42GlfTILRQcdI/edit?usp=sharing)
 
-🔧 Modificações feitas de acordo com o feedback da AV1
+### 🔧 Modificações feitas de acordo com o feedback da AV1
 Corrigida a cardinalidade mínima de ORGANIZA (mínima = 1 funcionário).
 Corrigida a cardinalidade mínima do relacionamento triplo FORNECE (mínima = 1:1:1).
 Corrigida a descrição de DESCONTO e sua vinculação à entidade associativa VENDE.
