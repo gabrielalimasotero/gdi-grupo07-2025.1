@@ -1,4 +1,5 @@
-# Minimundo AV1 – Loja de Quadrinhos
+# Minimundo – Loja de Quadrinhos (AV1)
+[current](https://docs.google.com/document/d/14fISroQGGKWpOCCcORue4w9zgTj-Fa42GlfTILRQcdI/edit?usp=sharing)
 
 Este projeto modela uma loja física de quadrinhos inspirada em séries como *The Big Bang Theory*. A loja vende quadrinhos presencialmente, organiza eventos como campeonatos e lançamentos, e conta com funcionários para operação e organização.
 
@@ -18,6 +19,7 @@ A aplicação representa uma loja física de quadrinhos. Seu foco é o controle 
 - Suportar análises sobre vendas, estoque e engajamento dos clientes
 
 ---
+## Atualizar daqui pra baixo conforme as entregas 
 
 ## 3. Descrição das Entidades
 
