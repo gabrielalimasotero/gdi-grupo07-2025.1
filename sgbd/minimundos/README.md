@@ -43,7 +43,7 @@ A aplicação representa uma loja física de quadrinhos. Seu foco é o controle 
 ### Cliente (especialização de Pessoa)
 - **Descrição:** Representa clientes que compram quadrinhos e participam de eventos.
 - **Atributos:**
-  - Num_Eventos_Participados
+  - VIP
 
 ### Quadrinhos
 - **Descrição:** Representa quadrinhos em estoque ou vendidos.
