@@ -1,9 +1,5 @@
-# Minimundo – Loja de Quadrinhos (AV1)
+# Minimundo – Loja de Quadrinhos (AV2)
 [Current](https://docs.google.com/document/d/14fISroQGGKWpOCCcORue4w9zgTj-Fa42GlfTILRQcdI/edit?usp=sharing)
-
-# Universidade Federal de Pernambuco - UFPE  
-## Centro de Informática - CIn
-## AV2 - Esquema Relacional Normalizado  
 
 🔧 Modificações feitas de acordo com o feedback da AV1
 Corrigida a cardinalidade mínima de ORGANIZA (mínima = 1 funcionário).
