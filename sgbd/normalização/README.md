@@ -1,5 +1,5 @@
 
-# 🗂️ Normalização – Comic Center (AV2)
+# 🗂️ Normalização – Comic Center
 
 Este documento apresenta a **normalização do modelo relacional** do projeto **Comic Center**, desenvolvido para a disciplina **Gerenciamento de Dados e Informação – UFPE** (Grupo 07).
 
@@ -7,144 +7,193 @@ Foram aplicadas as três primeiras formas normais (1FN, 2FN e 3FN), com justific
 
 ---
 ## Atualizar daqui pra baixo conforme as entregas
+### copia o docs e pede pro chatgpt formatar pra readme
 
-Normalização
-Histórico
+###AV2
 
-Entidades	
+# Normalização
 
-Pessoa (CPF, nome, email, telefone)
-1FN - Atributos atômicos (Telefone tratado como multivalorado, não em lista).
-2FN - Não existem dependências parcias(CPF é a única chave)
-3FN - Não existem dependências transitivas
+## Histórico
 
-Após a normalização:
- O CPF será a chave primária da tabela Pessoa e será criada uma nova tabela (Telefone_Pessoa) para armazenar o atributo telefone, relacionando o CPF com um ou mais telefone.
+Durante a modelagem, percebemos que a especialização de Pessoa (Cliente e Funcionário) poderia ser simplificada. Cliente não possui atributos próprios e suas informações podem ser obtidas por consultas na tabela Pessoa e relacionamentos. Assim, Cliente deixou de ser uma tabela separada e passou a ser identificado como um papel no atributo `tipo_pessoa` da tabela Pessoa.
 
-Funcionário (CPF_Funcionário,Cargo, salário, ativo, endereço(CEP, rua, número ), data admissão)
-1FN - Atributos atômicos (Endereço deixará de existir enquanto atributo, somente restante CEP, rua, número).
-2FN - Não existem dependências parciais(CPF_Funcionário é a única chave)
-3FN - Necessária criação de uma nova tabela para o Endereço, com o CEP como chave primária. Na tabela Funcionario CEP será uma chave estrangeira
+Além disso, atributos como `num_eventos_participados` são derivados (calculados a partir da contagem de inscrições) e não precisam ser armazenados diretamente, seguindo o princípio de normalização que evita redundância de dados (Sommerville, 2011).
 
-Após a normalização: 
-O CPF_Funcionario será a chave primária da tabela Funcionario e possuirá 
-CEP como chave estrangeira. Será necessária a criação de uma nova tabela Endereço(CEP, rua, numero).
+---
 
-Cliente (CPF_Cliente, Num_eventos_participados)
-1FN - Atributos atômicos (todos atributos atômicos).
-2FN - Não existem dependências parciais(CPF_cliente é a única chave)
-3FN - Não existem dependências transitivas
+## Entidades
 
-Após a normalização: 
-O CPF_Cliente será a chave primária da tabela Cliente.
+### Pessoa (CPF, nome, email, CEP*, telefone)
+- **1FN**: Atributos atômicos (telefone tratado como multivalorado, em tabela separada).  
+- **2FN**: Não existem dependências parciais (CPF é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+CPF é chave primária da tabela Pessoa.  
+Telefone é armazenado em tabela separada `Telefone_Pessoa`.  
+CEP é chave estrangeira para a tabela Endereço.
+
+---
+
+### Funcionário (CPF_Funcionário, cargo, salário, ativo, data_admissão)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (CPF_Funcionário é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+CPF_Funcionário é chave primária e estrangeira para Pessoa.  
+Herdará o CEP da tabela Pessoa (não precisa atributo Endereço direto).
+
+---
+
+### Endereço (CEP, rua, número)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (CEP é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+CEP é chave primária da tabela Endereço.
+
+---
+
+### Quadrinhos (ID, nome, gênero, preço, estoque, periodicidade, edição)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+ID é chave primária.
+
+---
+
+### Evento (ID, nome, data, tipo_evento, duração)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+ID é chave primária.
+
+---
+
+### VendeProduto (ID, ID_Quadrinho*, CPF_Funcionário*, CPF_Cliente*, data_compra)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+ID é chave primária.  
+ID_Quadrinho, CPF_Funcionário e CPF_Cliente são chaves estrangeiras.
+
+---
+
+### Desconto (ID_venda*, valor, cupom)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID_venda é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+ID_venda é chave primária e estrangeira para VendeProduto.
+
+---
+
+### Lote (ID, valor_unitário, quantidade, data_de_entrega)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+ID é chave primária.
+
+---
+
+### Fornecedor (CNPJ, nome, telefone)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (CNPJ é a única chave).  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+CNPJ é chave primária.
+
+---
+
+## Relacionamentos
+
+### Inscreve (ID_evento*, CPF_Cliente*, data_inscrição)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+ID_evento referência Evento.  
+CPF_Cliente referência Pessoa.
+
+---
+
+### Organiza
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+Faz parte da tabela Evento, pois a cardinalidade máxima está do lado do Evento.
+
+---
+
+### Tem
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+Faz parte da tabela Desconto, pois a cardinalidade máxima está do lado de Desconto.
+
+---
+
+### Supervisiona (CPF_Supervisor, CPF_Supervisionado)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+Faz parte da tabela Funcionário (auto-relacionamento).
+
+---
+
+### Fornece (ID_Lote*, ID_Quadrinho*, CNPJ_Fornecedor*)
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+
+**Após a normalização:**  
+ID_Lote referência Lote.  
+ID_Quadrinho referência Quadrinhos.  
+CNPJ_Fornecedor referência Fornecedor.
+
+---
+
+## Problemas Possíveis
+
+**De remoção:**  
+- O que acontece se um funcionário for removido mas estiver vinculado a uma venda?  
+- O que acontece se um evento for removido mas clientes ainda estiverem inscritos?  
+- O que acontece se o endereço for removido mas ainda estiver vinculado a pessoas?  
+- O que acontece se um quadrinho for removido mas estiver associado a uma venda ou lote?  
+- O que acontece se um fornecedor for removido mas ainda estiver vinculado a um lote de quadrinhos?
+
+**De inserção:**  
+- O que acontece se um cliente for inserido sem um endereço válido (CEP inexistente)?  
+- O que acontece se tentar cadastrar uma venda sem existir um cliente ou funcionário correspondente?  
+- O que acontece se alguém tentar inserir um evento com um organizador que não é funcionário?  
+- O que acontece se tentar inserir um telefone para um CPF inexistente na tabela Pessoa?  
+- O que acontece se tentar cadastrar um desconto sem existir a venda correspondente?
+
+**De atualização:**  
+- O que acontece se um funcionário for atualizado para “inativo” mas ainda estiver organizando eventos ou vendendo produtos?  
+- O que acontece se atualizar o CPF de um cliente ou funcionário que está referenciado em outras tabelas?  
+- O que acontece se atualizar o CEP de um endereço que já está referenciado em Pessoa?  
+- O que acontece se atualizar o ID de um quadrinho que está em venda ou lote?  
+- O que acontece se atualizar o ID de um evento que já está vinculado a inscrições de clientes?
 
 
-Quadrinhos(ID, nome, Gênero, preço, estoque, periodicidade, edição)
-1FN - Atributos atômicos (todos atributos atômicos).
-2FN - Não existem dependências parciais(ID é a única chave)
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-O ID será a chave primária da tabela Quadrinhos.
-
-
-Evento(ID, nome, data, tipo_evento, duração)
-1FN - Atributos atômicos (todos atributos atômicos).
-2FN - Não existem dependências parciais(ID é a única chave)
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-O ID será a chave primária da tabela Evento
-
-VendeProduto (ID, ID_Quadrinhos*, CPF_Funcionario*, CPF_Clientes*)
-1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais(ID é a única chave)
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-O ID será a chave primária da tabela VendeProduto. ID_Quadrinhos, CPF_Funcionario, CPF_Clientes são chaves estrangeiras.
-
-Desconto (ID_venda* ,valor, cupom)
-1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais(ID_venda é a única chave)
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-O ID_venda será a chave primária da tabela Desconto.
-
-
-Lote(ID, valor_unitário, quantidade, data_de_entrega)
-1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais(ID é a única chave)
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-O ID será a chave primária da tabela Lote.
-
-
-Fornecedor(CNPJ, nome, telefone)
-1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais(ID é a única chave)
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-O ID será a chave primária da tabela Fornecedor.
-
-Relacionamentos
-
-
-Inscreve(ID_evento*, cpf_cliente*)
-	1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais(ID é a única chave)
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-A Tabela Inscreve, conterá ID_evento referência(ID_evento Evento)
-CPF_cliente referência(CPF_cliente Cliente)
-
-
-
-Organiza
-
-1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais
-3FN - Não existem dependências transitivas
-
-Após a normalização: 
-Fará parte da tabela de evento visto que a cardinalidade máxima está com evento.
-
-Tem
-Descrição: Como a máxima está para desconto, desconto terá como atributos, também, o ID_Venda como chave estrangeira
-1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais
-3FN - Não existem dependências transitivas
-		
-		Após a normalização: 
-Fará parte da tabela Desconto visto que a cardinalidade máxima é igual, então optamos por colocalá em desconto.
-
-
- Supervisiona(CPF_Surpevisor, CPF_Surpevisionado)
-
-		1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais
-3FN - Não existem dependências transitivas
-
-		Após a normalização: 
-Fará parte da tabela Funcionário visto que a cardinalidade máxima é 1:N.
-
-Vende (CPF_func*, ID_quadrinho*, CPF_cliente*, data_compra)
-	
-	
-1FN - Atributos atômicos (Composto de atributos atômicos).
-2FN - Não existem dependências parciais
-3FN - Não existem dependências transitivas
-
-		Após a normalização: 
-		A Tabela Vende/ProdutoVende(apenas uma tabela para a entidade associativa)
-		possui as seguintes referências:
-		CPF_func referência(CPF_funcionário Funcionário)
-	CPF cliente referência(CPF cliente Cliente)
-	ID_quadrinho referência(ID_quadrinho Quadrinho)
-													
-Fornece (ID_lote*, ID_quadrinho*, CNPJ*)	
-
+												
