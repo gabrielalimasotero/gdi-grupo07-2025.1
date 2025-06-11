@@ -1,15 +1,11 @@
 
-# 🗂️ Normalização – Comic Center
+# 🗂️ Normalização – Comic Center - AV2
 
 Este documento apresenta a **normalização do modelo relacional** do projeto **Comic Center**, desenvolvido para a disciplina **Gerenciamento de Dados e Informação – UFPE** (Grupo 07).
 
 Foram aplicadas as três primeiras formas normais (1FN, 2FN e 3FN), com justificativas detalhadas para cada relação.
 
 obs.: sempre atualizar daqui pra baixo conforme as entregas, só copiar o docs e pedir pro chatgpt formatar pra readme
-
-# AV2
-
-## Normalização
 
 ## Histórico
 
