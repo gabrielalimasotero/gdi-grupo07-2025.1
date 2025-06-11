@@ -5,13 +5,11 @@ Este documento apresenta a **normalização do modelo relacional** do projeto **
 
 Foram aplicadas as três primeiras formas normais (1FN, 2FN e 3FN), com justificativas detalhadas para cada relação.
 
----
-### obs.: sempre atualizar daqui pra baixo conforme as entregas, só copiar o docs e pedir pro chatgpt formatar pra readme
----
+obs.: sempre atualizar daqui pra baixo conforme as entregas, só copiar o docs e pedir pro chatgpt formatar pra readme
 
-### AV2
+# AV2
 
-# Normalização
+## Normalização
 
 ## Histórico
 
