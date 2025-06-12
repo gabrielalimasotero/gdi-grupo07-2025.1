@@ -1,5 +1,5 @@
 # Minimundo – Loja de Quadrinhos (AV2)
-[Current]([https://docs.google.com/document/d/1LDpUb9rJD1lzPibhyFf6ewZ_M4Bt-b8FCiRk1mNGRXs/edit?usp=sharing](https://docs.google.com/document/d/1LDpUb9rJD1lzPibhyFf6ewZ_M4Bt-b8FCiRk1mNGRXs/edit?tab=t.0))
+[Current](https://docs.google.com/document/d/1LDpUb9rJD1lzPibhyFf6ewZ_M4Bt-b8FCiRk1mNGRXs/edit?usp=sharing)
 
 ### 🔧 Modificações feitas de acordo com o feedback da AV1
 Corrigida a cardinalidade mínima de ORGANIZA (mínima = 1 funcionário).
