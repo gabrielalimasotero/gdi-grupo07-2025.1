@@ -1,9 +1,11 @@
 
-# 📈 Diagrama ER – AV2 (será atualizado a cada entrega)
+# 📈 Diagrama ER – AV2
 
 Este documento apresenta o diagrama ER em **Mermaid** utilizado para a **Avaliação AV2** do projeto **Comic Center** na disciplina **Gerenciamento de Dados e Informação – UFPE**.
 
 O diagrama foi revisado e modificado de acordo com o **feedback da AV1**, garantindo que todos os requisitos mínimos foram atendidos e que as correções foram aplicadas.
+
+O minimundo pode ser encontrado [aqui](https://github.com/gabrielalimasotero/gdi-grupo07-2025.1/tree/main/sgbd/minimundos)
 
 ---
 
@@ -148,13 +150,4 @@ erDiagram
 👉 [Abrir Diagrama](https://app.diagrams.net/?splash=0#G1z9cHzAu5elWG1Sr_yfaFSnkrfjwySuP5#%7B%22pageId%22%3A%22MDzwoyZKB1G08Y7-jSuO%22%7D)
 
 - 📝 **Editar no Mermaid Live Editor**:  
-👉 [Abrir no Mermaid Live Editor](https://mermaid.live/edit#pako:eNqVVm2PmkAQ_itkk37zLodveH4ziqmtBxycfmhMyBb2cFPY5RYw7an_vbu8uSDG9ouR2Wdmntl5ZuAIPOojMAWILTAMGIx2ZEcUxdIdx5wpR_FfUZKUYRIoc2upWN8bJkIj1DCgCOKwYUlxTN0YJQmFzWi6pSzzaOcip24sdFufm-2sHNfKyrJmKJJFiFEp1Ju-1pemobu36nCtnFBJ4MIVheidEiSFWm6M-co0ZvbK7AizzIiHKYEMU06y147nQRbQwuIjD0cwVBIYCnRh_ElpiCBRYIoPFQ6mSPxAF_oRThIo1_W6mS3slfHVdCoumKTKanG3LQEi5Q1dmMQMefQSBSUp_ciabjHiVH3sYR_6rT5za4OavtWNN_NfadVVXksFHRBJacPuZwyW2WobZQEk-BP6lDVltBU6smxzsblJp3h0XzPo81h72m5bu7Mdx_MQc5qoPrq0zaNRzKBEaKE7c_Pqblxepg8boqkac4AhZU0dZTGNpJBr802_UVsjiJsRnF7kJqAfGSSp1M8LcR-5vCSGApn80rQNfa4vTLutfsP6dld2HfO0Mpy5vW2xL5v-fxeNSeKxlgpLuq3oayoFuNt8Xpi7pIwgD12Jy9lYur1dOWIjdKwDJ-MTc8BJ7dZ5KmTl02bgL18UW1_P8lXzIibJkdbw6fTwQE-XBTlVYpokGW5DjleLT0bKm0zATyelRu0R86E0xuW57DJVduAydG7MJQqu5u1Mcz9pTwk3IXV0G93Ogt5Rmt3NUXPfgWLkZId65spCGgGEC4xDLh3ugqLCo9Jl6VDeg4DmOuMC7cTJLAqllrrkKwxcKeZGwYkkjMKr0nGZJZ93gQy5kjsRrRv_qNTdCZaGWoDfa7ELNOiBgGEfTFOWoR7gb1b-SuePIJf7DqR7xKccCEcfsl_C5cx9Ykh-UBpVboxmwb56yGIxteUHRo0QomBzmpEUTFV1nIcA0yP4zR-1x_6Tpj5rY22gqYOJOuyBP2D60B8_as_DyWTYHz4PJkN1dO6Bzzyr-vikjfvj0Wgy0IbjiTqa9AB_R6WUvRQfOPl3zvkvzl3U8g)
-
----
-
-## 📌 Observação
-
-Este diagrama está pronto para visualização em plataformas que suportam Mermaid ou Draw.io.  
-Fique à vontade para abrir uma issue ou sugestão de melhoria!
-
----
+👉 [Abrir no Mermaid Live Editor](https://mermaid.live/edit#pako:eNqNVltv2jAU_iuWn2lVCoGSt4rL1F2qbN36MCEhNz6l1hKfzHbQVuC_184NJ4DaF4jt79y-8_kkWxojBxpSUDPB1oqlS7mUhESgNTKydc-EaKOEXJNptCDRl9bWPabQ2pinTCRuZ-9-pokAaeCsnwK0yGUsUDIl8P2AU6bWWO48J8gMeWCJsyy3nhATYJLcGrGptjiz8WfMsNUtT4XWDJvAVZG73cXFbtfkGhLQGcSCJeKVHcP8bDtQB_4JCTyjhNU5BuuDRbuu2u5Ucrg9chuSDLXORRl0LjkoiI_om0dd-n7krN2_PAV1jpHGbUgUaMFhBWm3YcdQlmDMOBZYh37IM1AboZ1FJ8H6CFWXDt-IY3W6PxXcktOKEBLtLSt-NrazDTtCGnI3O6_kRjHtBokMV6Wjg5tZrljsKepEclXskKBaM9no5E7qWMEG2klVAbpsONnU8qyPDrouXAk_jRpbpdDEsqphyohYZMyj5QTK09b3nHGbxAvqj_JXbXwCWUmrvqqRU8jBx1wb_Ju3jSKw1HGbIWe8M1i4V6L7ewSruUghz8-2tiK1KeEjvHpHfjePaZ9imil2jvNWdiGJG_AJiXSwG7fsUH8aaXVuQMZQEjIDHeORzlfO5jBuyk482kuq2vXmGaZNMa041RVv3IfE1Hf7Kxo4w73X8tUvKcxhSDugLU0ar8kHWufSKFgzr9ELVBJi4HZKdObbffT5XRl2BqvnsMNTUcvio8qxoVdeYt6AKvxU_aoj2ReF3Ah2uqkHkCULnqBT8xHquXyiPbpWgtPQqBx61M5x--q1S1qUtaTmBSwVNLSPnKk_S7qUe2uTMfkbMa3NFObrl3qRZ64P1YdAg3BaUFPMpaHhsD8OCh803NJ_NLwIroaXo5ub4WQyCUb252rco_9pOAguR5NRMBwNBuPBIAjG-x59LcJeXwbD8aTfH_YHo5vr4MoZABcG1bfyS6T4INm_AYPK3Qw)
