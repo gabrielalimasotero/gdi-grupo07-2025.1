@@ -113,7 +113,7 @@ Garantida a consistência entre minimundo e diagrama.
 ### Organiza
 - **Descrição:** Um Funcionário organiza um Evento.  
 - **Cardinalidade:**  
-  - Mínima: 1 (Funcionário) : 0 (Evento)  
+  - Mínima: 1 (Funcionário) : 1 (Evento)  
   - Máxima: 1:N  
 
 ### Tem
