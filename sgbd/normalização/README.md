@@ -1,65 +1,108 @@
 
-# 🗂️ Normalização – Comic Center (AV2)
+# 🗂️ Normalização – Comic Center - AV2
 
 Este documento apresenta a **normalização do modelo relacional** do projeto **Comic Center**, desenvolvido para a disciplina **Gerenciamento de Dados e Informação – UFPE** (Grupo 07).
 
 Foram aplicadas as três primeiras formas normais (1FN, 2FN e 3FN), com justificativas detalhadas para cada relação.
 
----
+obs.: sempre atualizar daqui pra baixo conforme as entregas, só copiar o docs e pedir pro chatgpt formatar pra readme
 
-## 📄 Relações e justificativas
+## Normalização
 
-### 1️⃣ Pessoa(CPF, Nome, Email, Telefone)  
-✅ **1FN:** Atributos atômicos (Telefone tratado como múltiplos registros, não em lista).  
-✅ **2FN:** Não há dependências parciais (CPF é a chave primária).  
-✅ **3FN:** Não há dependências transitivas.
+### Pessoa
+- **1FN**: Atributos atômicos (telefone multivalorado em tabela separada).  
+- **2FN**: Não existem dependências parciais (CPF é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Tabela Pessoa com CPF como chave primária e CEP como chave estrangeira.  
+  - Telefone armazenado em tabela Telefone_Pessoa.  
+  - Tabela Endereço separada.
 
-### 2️⃣ Funcionário(CPF, Cargo, Salario, CEP, Rua, Numero, Data_Admissao)  
-✅ Especialização de Pessoa.  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Funcionário
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (CPF_Funcionário é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Funcionário herda CEP como FK a partir de Pessoa.
+    
+### Quadrinhos
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Tabela Quadrinhos com ID como chave primária.
 
-### 3️⃣ Cliente(CPF, Num_Eventos_Participados)  
-✅ Especialização de Pessoa.  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Evento
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Tabela Evento com ID como chave primária e organizador como FK.
 
-### 4️⃣ Quadrinhos(ID, Nome, Genero, Preco, Estoque, Periodicidade, Edicao)  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### VendeProduto
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Tabela VendeProduto com ID como chave primária.  
+  - FK para Quadrinhos, Funcionário e Pessoa (cliente).
 
-### 5️⃣ Evento(ID, Nome, Data, Tipo_Evento, Duracao)  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Desconto
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID_venda é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - ID_venda como chave primária e FK para VendeProduto.
 
-### 6️⃣ Vende(ClienteCPF, FuncionárioCPF, QuadrinhoID, Data_Compra)  
-✅ PK composta: (ClienteCPF, FuncionárioCPF, QuadrinhoID).  
-✅ **1FN:** Atributos atômicos.  
-✅ **2FN:** Todos dependem da PK completa.  
-✅ **3FN:** Sem dependências transitivas.
+### Lote
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (ID é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - ID como chave primária.
 
-### 7️⃣ Desconto(VendaID, Valor, Cupom)  
-✅ Entidade fraca associada a Vende.  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Fornecedor
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais (CNPJ é chave primária).  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - CNPJ como chave primária.
 
-### 8️⃣ Fornecedor(CNPJ, Nome, Telefone)  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Inscreve
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - ID_evento como FK para Evento.  
+  - CPF_Cliente como FK para Pessoa.
 
-### 9️⃣ Lote(ID, Valor_Unitario, Quantidade, Data_Entrega)  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Organiza
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Organizador representado como FK na tabela Evento.
 
-### 🔟 Fornece(FornecedorCNPJ, LoteID, QuadrinhoID)  
-✅ PK composta: (FornecedorCNPJ, LoteID, QuadrinhoID).  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Tem
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Faz parte da tabela Desconto (cardinalidade máxima está em Desconto).
 
-### 1️⃣1️⃣ Inscreve(ClienteCPF, EventoID, Data_Inscrição)  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Supervisiona
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - Representado como auto-relacionamento em Funcionário.
 
-### 1️⃣2️⃣ Supervisiona(SupervisorCPF, SupervisionadoCPF)  
-✅ Auto-relacionamento.  
-✅ **1FN, 2FN, 3FN:** Cumpridas.
+### Fornece
+- **1FN**: Atributos atômicos.  
+- **2FN**: Não existem dependências parciais.  
+- **3FN**: Não existem dependências transitivas.  
+- **Após a normalização:**  
+  - ID_Lote como FK para Lote.  
+  - ID_Quadrinho como FK para Quadrinhos.  
+  - CNPJ_Fornecedor como FK para Fornecedor.
 
----
-
-## 📌 Observação Final
-
-Todos os esquemas foram normalizados até a **Terceira Forma Normal (3FN)**, garantindo integridade e minimização de redundâncias.  
-Caso haja dúvidas ou sugestões, fique à vontade para abrir uma issue!
-
----

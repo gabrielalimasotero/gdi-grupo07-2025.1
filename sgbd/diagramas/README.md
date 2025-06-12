@@ -33,107 +33,112 @@ O diagrama foi revisado e modificado de acordo com o **feedback da AV1**, garant
 
 ```mermaid
 erDiagram
-    PESSOA {
-        string CPF
-        string Nome
-        string Email
-    }
-    TELEFONE_PESSOA {
-        string CPF_Pessoa
-        string Telefone
-    }
-    FUNCIONARIO {
-        string CPF_Funcionario
-        string Cargo
-        float Salario
-        boolean Ativo
-        date Data_Admissao
-        string CEP
-    }
-    ENDERECO {
-        string CEP
-        string Rua
-        int Numero
-    }
-    CLIENTE {
-        string CPF_Cliente
-        int Num_eventos_participados
-    }
-    QUADRINHOS {
-        int ID
-        string Nome
-        string Genero
-        float Preco
-        int Estoque
-        string Periodicidade
-        string Edicao
-    }
-    EVENTO {
-        int ID
-        string Nome
-        date Data
-        string Tipo_Evento
-        string Duracao
-        string Organizador
-    }
-    INSCRICAO {
-        int ID_Evento
-        string CPF_Cliente
-        date Data_Inscricao
-    }
-    VENDEPRODUTO {
-        int ID
-        int ID_Quadrinho
-        string CPF_Funcionario
-        string CPF_Cliente
-        date Data_Compra
-    }
-    DESCONTO {
-        int ID_Venda
-        float Valor
-        string Cupom
-    }
-    FORNECEDOR {
-        string CNPJ
-        string Nome
-        string Telefone
-    }
-    LOTE {
-        int ID
-        float Valor_Unitario
-        int Quantidade
-        date Data_Entrega
-    }
-    FORNECE {
-        int ID_Lote
-        int ID_Quadrinho
-        string CNPJ_Fornecedor
-    }
-    SUPERVISIONA {
-        string CPF_Supervisor
-        string CPF_Supervisionado
-    }
 
-    %% Relacionamentos
-    PESSOA ||--o| TELEFONE_PESSOA: "possui"
-    PESSOA ||--|| FUNCIONARIO: "é"
-    PESSOA ||--|| CLIENTE: "é"
-    FUNCIONARIO ||--|| ENDERECO: "tem"
-    FUNCIONARIO ||--o| SUPERVISIONA: "supervisiona"
-    FUNCIONARIO ||--o| EVENTO: "organiza"
-    FUNCIONARIO ||--o| VENDEPRODUTO: "vende"
-    CLIENTE ||--o| INSCRICAO: "inscreve-se"
-    CLIENTE ||--o| VENDEPRODUTO: "compra"
-    EVENTO ||--o| INSCRICAO: "tem inscrição"
-    QUADRINHOS ||--o| VENDEPRODUTO: "é vendido"
-    VENDEPRODUTO ||--o| DESCONTO: "tem"
-    FORNECEDOR ||--o| FORNECE: "fornece"
-    LOTE ||--o| FORNECE: "faz parte"
-    QUADRINHOS ||--o| FORNECE: "é entregue"
+  PESSOA {
+    string CPF PK
+    string nome
+    string email
+    string tipo_pessoa
+    string CEP FK
+  }
 
-%% Legenda para chaves (PK / FK):
-%% PK: CPF, ID, CNPJ, etc.
-%% FK: CEP, CPF_Pessoa, Organizador, ID_Quadrinho, CPF_Funcionario, CPF_Cliente, ID_Evento, ID_Venda, ID_Lote, CNPJ_Fornecedor
+  ENDERECO {
+    string CEP PK
+    string rua
+    string numero
+  }
+
+  TELEFONE_PESSOA {
+    string CPF_Pessoa FK
+    string telefone
+  }
+
+  FUNCIONARIO {
+    string CPF_Funcionario PK, FK
+    string cargo
+    decimal salario
+    boolean ativo
+    date data_admissao
+  }
+
+  QUADRINHOS {
+    int ID PK
+    string nome
+    string genero
+    decimal preco
+    int estoque
+    string periodicidade
+    string edicao
+  }
+
+  EVENTO {
+    int ID PK
+    string nome
+    date data
+    string tipo_evento
+    string duracao
+    string organizador FK
+  }
+
+  VENDEPRODUTO {
+    int ID PK
+    int ID_Quadrinho FK
+    string CPF_Funcionario FK
+    string CPF_Cliente FK
+    date data_compra
+  }
+
+  DESCONTO {
+    int ID_venda PK, FK
+    decimal valor
+    string cupom
+  }
+
+  LOTE {
+    int ID PK
+    decimal valor_unitario
+    int quantidade
+    date data_de_entrega
+  }
+
+  FORNECEDOR {
+    string CNPJ PK
+    string nome
+    string telefone
+  }
+
+  INSCRVE {
+    int ID_evento FK
+    string CPF_Cliente FK
+    date data_inscricao
+  }
+
+  FORNECE {
+    int ID_Lote FK
+    int ID_Quadrinho FK
+    string CNPJ_Fornecedor FK
+  }
+
+  SUPERVISIONA {
+    string CPF_Supervisor FK
+    string CPF_Supervisionado FK
+  }
+
+  %% RELACIONAMENTOS
+  PESSOA ||--o| ENDERECO : possui
+  PESSOA ||--o{ TELEFONE_PESSOA : possui
+  FUNCIONARIO ||--|| PESSOA : herda
+  EVENTO ||--|| FUNCIONARIO : "organizado_por"
+  VENDEPRODUTO }o--|| QUADRINHOS : "vende"
+  VENDEPRODUTO }o--|| FUNCIONARIO : "efetuado_por"
+  VENDEPRODUTO }o--|| PESSOA : "comprado_por"
+  DESCONTO ||--|| VENDEPRODUTO : "aplicado_em"
+  INSCRVE ||--|| EVENTO : "inscreve"
+  INSCRVE ||--|| PESSOA : "cliente_inscrito"
+  SUPERVISIONA }o--|| FUNCIONARIO : "supervisiona"
+  FORNECE ||--|| LOTE : "lote"
+  FORNECE ||--|| QUADRINHOS : "quadrinho"
+  FORNECE ||--|| FORNECEDOR : "fornecedor"
 ```
 
 ---
@@ -144,7 +149,7 @@ erDiagram
 👉 [Abrir Diagrama](https://app.diagrams.net/?splash=0#G1z9cHzAu5elWG1Sr_yfaFSnkrfjwySuP5#%7B%22pageId%22%3A%22MDzwoyZKB1G08Y7-jSuO%22%7D)
 
 - 📝 **Editar no Mermaid Live Editor**:  
-👉 [Abrir no Mermaid Live Editor](https://mermaid.live/edit#pako:eNqVVtFuozgU_RVkaaQdye122rSb8haBM8s2Cww0eVhVQh5wU2uDzRqodtv0a_ZhNd_RH1ubQGIDiWZ4SWyfe3197r3HfgUpzwiwAREuxWuB8wdmyS9EcRzMrNfdSH1lJShbW044H8z5PCeDSZRjutnNvu1-7tECzQMfJaecJyEpS44HS_dkQx45I4bH-dJ3vMCfRV5wxNu8ZinlDAvKh-tYrLXZxw3HlRXjjQn-yvmGYGbNKvqsTWe4IpaLK5zMspyWJR7xj0IjWuS7KELOaKgdVJuLao0FyirLr3MiuOHSWXjIv0dHDu9sKGEVGXhJyLOc52VSYFHRlBY446Xh98ty5kae_2sQ666Vued-X_o_E7YP9sBuKEjKTYeorPhf9dBBSGQaMhldhrOR6pIr2OQCrSQVwQ_Hu0_ksORowRPUUDVYc2uB05GcB2KNGX2RhAojOM-PnchzZiPxHdtiNIOHsvNYmYoBCStVZGEUuMvTVLRbf6lxJjd74j_ePKejc3heCGyE5qLYCUYzlKwIy3C_VlZ405Go71sXPDdFIIh85CA3iMbawA9_-76CHRWYRWA2V59GLdJkyWhlUqXQkmFW9Wr4QBNilSBrPHaeEZoWvN_Mp1Moz57MuWAkJf16jJchilZerNTziHrEdUHEMy3HkqAtqwLJDkW4-_PhgxWRDW6qJ2-0xrhWttuzM77tXwi29QAKXpY1fQAD-Harq72Cvn8bh7WaaEL0m6LFdXKsgBXJjyFlnDpZCl1qRz9hthMkZcBbVTgB1htXmUhNkCUDTJlvsXsxUUCqdEAK-ll5DN53ne56ExiyOeZasmI17un7f-__8s5CuxyO7PD-zVLx02xvY-hSa9UJQj8Bh35uge2Mwj3uyrnDNv05gsIvlrrbyPGQNbSMljR9WDf4Byard0HWSpOUF2ylT_iZlNZP4Z31szW_-2g3kPDOVo0AZRPCptegRar0vFmbqzUUQu1FA_W7ARqdC_tqC3V5hYc7Au7FEnZ6AIdtDiBYC5oBuxI1gUA-GuRTTA5B0-eS6yci9Q-oo2dY_KnO_CZtCsz-4DzvzASv10_doC6UZrUvxD1ClahweM0qYN82DoD9Cv4G9s30_OL6cnI1uZ1eTi5vbq4g-AfYV9fnt_KbfppcTyaTi9vp5A2Cl2bLi_PpL9cQkIxWXPy-e5E2D9O3_wEvtSfY)
+👉 [Abrir no Mermaid Live Editor](https://mermaid.live/edit#pako:eNqVVm2PmkAQ_itkk37zLodveH4ziqmtBxycfmhMyBb2cFPY5RYw7an_vbu8uSDG9ouR2Wdmntl5ZuAIPOojMAWILTAMGIx2ZEcUxdIdx5wpR_FfUZKUYRIoc2upWN8bJkIj1DCgCOKwYUlxTN0YJQmFzWi6pSzzaOcip24sdFufm-2sHNfKyrJmKJJFiFEp1Ju-1pemobu36nCtnFBJ4MIVheidEiSFWm6M-co0ZvbK7AizzIiHKYEMU06y147nQRbQwuIjD0cwVBIYCnRh_ElpiCBRYIoPFQ6mSPxAF_oRThIo1_W6mS3slfHVdCoumKTKanG3LQEi5Q1dmMQMefQSBSUp_ciabjHiVH3sYR_6rT5za4OavtWNN_NfadVVXksFHRBJacPuZwyW2WobZQEk-BP6lDVltBU6smxzsblJp3h0XzPo81h72m5bu7Mdx_MQc5qoPrq0zaNRzKBEaKE7c_Pqblxepg8boqkac4AhZU0dZTGNpJBr802_UVsjiJsRnF7kJqAfGSSp1M8LcR-5vCSGApn80rQNfa4vTLutfsP6dld2HfO0Mpy5vW2xL5v-fxeNSeKxlgpLuq3oayoFuNt8Xpi7pIwgD12Jy9lYur1dOWIjdKwDJ-MTc8BJ7dZ5KmTl02bgL18UW1_P8lXzIibJkdbw6fTwQE-XBTlVYpokGW5DjleLT0bKm0zATyelRu0R86E0xuW57DJVduAydG7MJQqu5u1Mcz9pTwk3IXV0G93Ogt5Rmt3NUXPfgWLkZId65spCGgGEC4xDLh3ugqLCo9Jl6VDeg4DmOuMC7cTJLAqllrrkKwxcKeZGwYkkjMKr0nGZJZ93gQy5kjsRrRv_qNTdCZaGWoDfa7ELNOiBgGEfTFOWoR7gb1b-SuePIJf7DqR7xKccCEcfsl_C5cx9Ykh-UBpVboxmwb56yGIxteUHRo0QomBzmpEUTFV1nIcA0yP4zR-1x_6Tpj5rY22gqYOJOuyBP2D60B8_as_DyWTYHz4PJkN1dO6Bzzyr-vikjfvj0Wgy0IbjiTqa9AB_R6WUvRQfOPl3zvkvzl3U8g)
 
 ---
 
