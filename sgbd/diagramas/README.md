@@ -34,111 +34,110 @@ O diagrama foi revisado e modificado de acordo com o **feedback da AV1**, garant
 ```mermaid
 erDiagram
 
-  PESSOA {
+  Pessoa {
     string CPF PK
-    string nome
-    string email
-    string tipo_pessoa
-    string CEP FK
+    string Nome
+    string Email
   }
-
-  ENDERECO {
-    string CEP PK
-    string rua
-    string numero
+  Cliente {
+    string CPF PK
   }
+  Funcionario {
+    string CPF PK
+    string Cargo
+    float Salario
+    boolean Ativo
+    date Data_Admissao
+  }
+  Pessoa ||--|| Cliente : especializa
+  Pessoa ||--|| Funcionario : especializa
 
-  TELEFONE_PESSOA {
+  Telefone_Pessoa {
     string CPF_Pessoa FK
-    string telefone
+    string Telefone
   }
+  Pessoa ||--o{ Telefone_Pessoa : possui
 
-  FUNCIONARIO {
-    string CPF_Funcionario PK, FK
-    string cargo
-    decimal salario
-    boolean ativo
-    date data_admissao
+  Endereco {
+    string CEP PK
+    string Rua
+    string Numero
   }
+  Pessoa ||--|| Endereco : reside_em
+  Funcionario ||--|| Endereco : alocado_em
 
-  QUADRINHOS {
+  Supervisiona {
+    string Supervisor FK
+    string Supervisionado FK
+  }
+  Funcionario ||--o{ Supervisiona : supervisiona
+
+  Evento {
     int ID PK
-    string nome
-    string genero
-    decimal preco
-    int estoque
-    string periodicidade
-    string edicao
+    string Nome
+    date Data
+    string Tipo_Evento
+    int Duracao
   }
+  Funcionario ||--o{ Evento : organiza
 
-  EVENTO {
+  Inscreve {
+    int ID_Evento FK
+    string CPF_Cliente FK
+    date Data_Inscricao
+  }
+  Cliente ||--o{ Inscreve : participa
+  Evento ||--o{ Inscreve : possui
+
+  Quadrinhos {
     int ID PK
-    string nome
-    date data
-    string tipo_evento
-    string duracao
-    string organizador FK
+    string Nome
+    string Genero
+    float Preco
+    int Estoque
+    string Periodicidade
+    string Edicao
   }
 
-  VENDEPRODUTO {
+  VendeProduto {
     int ID PK
     int ID_Quadrinho FK
+    string CPF_Cliente FK
     string CPF_Funcionario FK
-    string CPF_Cliente FK
-    date data_compra
+    date Data_Compra
   }
+  Cliente ||--o{ VendeProduto : compra
+  Funcionario ||--o{ VendeProduto : vende
+  Quadrinhos ||--o{ VendeProduto : pertence
 
-  DESCONTO {
-    int ID_venda PK, FK
-    decimal valor
-    string cupom
+  Desconto {
+    int ID_Venda FK
+    float Valor
+    string Cupom
   }
+  VendeProduto ||--|| Desconto : tem
 
-  LOTE {
+  Lote {
     int ID PK
-    decimal valor_unitario
-    int quantidade
-    date data_de_entrega
+    float Preco_Unitario
+    int Quantidade
+    date Data_Entrega
   }
 
-  FORNECEDOR {
+  Fornecedor {
     string CNPJ PK
-    string nome
-    string telefone
+    string Nome
+    string Telefone
   }
 
-  INSCRVE {
-    int ID_evento FK
-    string CPF_Cliente FK
-    date data_inscricao
-  }
-
-  FORNECE {
+  Fornece {
     int ID_Lote FK
     int ID_Quadrinho FK
     string CNPJ_Fornecedor FK
   }
-
-  SUPERVISIONA {
-    string CPF_Supervisor FK
-    string CPF_Supervisionado FK
-  }
-
-  %% RELACIONAMENTOS
-  PESSOA ||--o| ENDERECO : possui
-  PESSOA ||--o{ TELEFONE_PESSOA : possui
-  FUNCIONARIO ||--|| PESSOA : herda
-  EVENTO ||--|| FUNCIONARIO : "organizado_por"
-  VENDEPRODUTO }o--|| QUADRINHOS : "vende"
-  VENDEPRODUTO }o--|| FUNCIONARIO : "efetuado_por"
-  VENDEPRODUTO }o--|| PESSOA : "comprado_por"
-  DESCONTO ||--|| VENDEPRODUTO : "aplicado_em"
-  INSCRVE ||--|| EVENTO : "inscreve"
-  INSCRVE ||--|| PESSOA : "cliente_inscrito"
-  SUPERVISIONA }o--|| FUNCIONARIO : "supervisiona"
-  FORNECE ||--|| LOTE : "lote"
-  FORNECE ||--|| QUADRINHOS : "quadrinho"
-  FORNECE ||--|| FORNECEDOR : "fornecedor"
+  Lote ||--o{ Fornece : envia
+  Quadrinhos ||--o{ Fornece : recebe
+  Fornecedor ||--o{ Fornece : fornece
 ```
 
 ---
