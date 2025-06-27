@@ -1,144 +1,159 @@
 -- Tabela Endereco
+-- Adicionado id como PRIMARY KEY e sequência para o id
+CREATE SEQUENCE seq_endereco
+START WITH 1
+INCREMENT BY 1;
+
 
 CREATE TABLE Endereco (
+    id NUMBER DEFAULT seq_endereco.NEXTVAL PRIMARY KEY,
     cep CHAR(9) NOT NULL,
     rua VARCHAR2(40) NOT NULL,
-    numero NUMBER,
-    CONSTRAINT endereco_pk PRIMARY KEY (cep)
+    numero NUMBER
 );
 
--- Tabela TelefoneCliente (Nova Tabela)
 
-CREATE TABLE TelefoneCliente (
-    cpf_cliente CHAR(11) NOT NULL,
+-- Tabela Pessoa (Nova entidade centralizada)
+CREATE TABLE Pessoa (
+    cpf CHAR(11) PRIMARY KEY,
+    nome VARCHAR2(40) NOT NULL,
+    email VARCHAR2(40) NOT NULL,
+    id_endereco NUMBER, -- FK para Endereco
+    CONSTRAINT fk_pessoa_endereco FOREIGN KEY (id_endereco) REFERENCES Endereco(id)
+);
+
+
+-- Tabela Telefone_Pessoa (Substitui TelefoneCliente e TelefoneFuncionario)
+CREATE TABLE Telefone_Pessoa (
+    cpf CHAR(11) NOT NULL,
     telefone VARCHAR2(20) NOT NULL,
-    CONSTRAINT pk_telefone_cliente PRIMARY KEY (cpf_cliente, telefone),
-    CONSTRAINT fk_cpf_cliente_tel FOREIGN KEY (cpf_cliente) REFERENCES Cliente(cpf_cliente)
+    CONSTRAINT pk_telefone_pessoa PRIMARY KEY (cpf, telefone),
+    CONSTRAINT fk_telefone_pessoa_cpf FOREIGN KEY (cpf) REFERENCES Pessoa(cpf)
 );
 
--- Tabela TelefoneFuncionario (Nova Tabela)
 
-CREATE TABLE TelefoneFuncionario (
-    cpf_funcionario CHAR(11) NOT NULL,
-    telefone VARCHAR2(20) NOT NULL,
-    CONSTRAINT pk_telefone_funcionario PRIMARY KEY (cpf_funcionario, telefone),
-    CONSTRAINT fk_cpf_funcionario_tel FOREIGN KEY (cpf_funcionario) REFERENCES Funcionario(cpf_funcionario)
-);
-
--- Tabela Funcionario
-
+-- Tabela Funcionario (Atualizada após normalização)
 CREATE TABLE Funcionario(
-    nome VARCHAR2(40) NOT NULL,
-    email VARCHAR2(40) NOT NULL,
-    cpf_funcionario CHAR(11) PRIMARY KEY,
-    cep CHAR(9) NOT NULL,
-    cargo VARCHAR2(40) NOT NULL,
-    salario NUMBER NOT NULL, 
+    cpf_func CHAR(11) PRIMARY KEY, -- Agora PK e FK para Pessoa
     ativo VARCHAR2(20) NOT NULL,
-    data_admissao DATE NOT NULL, 
-    cpf_gerente CHAR(11), 
-    CONSTRAINT chk_ativo CHECK (ativo IN ('ativo', 'inativo')), 
-    CONSTRAINT fk_cep FOREIGN KEY (cep) REFERENCES Endereco(cep), 
-    CONSTRAINT fk_cpf_gerente FOREIGN KEY (cpf_gerente) REFERENCES Funcionario(cpf_funcionario)
+    data_admissao DATE NOT NULL,
+    cpf_supervisor CHAR(11), -- Auto-referência
+    CONSTRAINT chk_ativo CHECK (ativo IN ('ativo', 'inativo')),
+    CONSTRAINT fk_func_pessoa FOREIGN KEY (cpf_func) REFERENCES Pessoa(cpf), -- FK para Pessoa
+    CONSTRAINT fk_func_supervisor FOREIGN KEY (cpf_supervisor) REFERENCES Funcionario(cpf_func) -- Auto-referência
 );
 
--- Tabela Cliente
 
+-- Tabela Cargo_Funcionario (Nova tabela para normalizar Cargo e Salário)
+CREATE SEQUENCE seq_cargo_funcionario
+START WITH 1
+INCREMENT BY 1;
+
+
+CREATE TABLE Cargo_Funcionario (
+    id NUMBER DEFAULT seq_cargo_funcionario.NEXTVAL PRIMARY KEY,
+    cargo VARCHAR2(40) NOT NULL,
+    salario NUMBER NOT NULL,
+    cpf_funcionario CHAR(11) NOT NULL, -- FK para Funcionario
+    CONSTRAINT fk_cargo_func FOREIGN KEY (cpf_funcionario) REFERENCES Funcionario(cpf_func)
+);
+
+
+-- Tabela Cliente (Atualizada após normalização)
 CREATE TABLE Cliente (
-    nome VARCHAR2(40) NOT NULL,
-    cpf_cliente CHAR(11) NOT NULL,
-    email VARCHAR2(40) NOT NULL,
-    num_eventos_participados NUMBER NOT NULL,
-    CONSTRAINT cliente_pk PRIMARY KEY (cpf_cliente) 
+    cpf_cliente CHAR(11) PRIMARY KEY, -- Agora PK e FK para Pessoa
+    num_eventos_participados NUMBER NOT NULL, -- Mantido aqui conforme a estrutura atual, pode ser movido para Pessoa se for genérico
+    CONSTRAINT fk_cliente_pessoa FOREIGN KEY (cpf_cliente) REFERENCES Pessoa(cpf)
 );
 
--- Tabela Quadrinhos
 
+-- Tabela Quadrinhos (Sem mudanças na estrutura)
 CREATE TABLE Quadrinhos(
-    id NUMBER PRIMARY KEY, 
+    id NUMBER PRIMARY KEY,
     nome VARCHAR2(40) NOT NULL,
     genero VARCHAR2(40) NOT NULL,
-    preco NUMBER NOT NULL, 
+    preco NUMBER NOT NULL,
     estoque NUMBER NOT NULL,
     periodicidade VARCHAR2(40),
     edicao VARCHAR2(40),
     CONSTRAINT chk_periodicidade CHECK (periodicidade IN ('Diario', 'Semanal', 'Quinzenal', 'Mensal', 'Bimestral', 'Trimestral', 'Semestral', 'Anual', 'Unico'))
 );
 
--- Tabela Evento
 
+-- Tabela Evento (Atualizada com cpf_func do organizador)
 CREATE SEQUENCE seq_evento
 START WITH 1
 INCREMENT BY 1;
 
+
 CREATE TABLE Evento(
     id NUMBER PRIMARY KEY,
-    organizador CHAR(11) NOT NULL,
+    cpf_func CHAR(11) NOT NULL, -- Renomeado de 'organizador' e agora FK para Funcionario
     nome_evento VARCHAR2(40) NOT NULL,
-    data_evento DATE NOT NULL,
+    data_evento DATE NOT NULL, -- 'data' renomeado para 'data_evento' para consistência
     tipo_evento VARCHAR2(40) NOT NULL,
-    duracao VARCHAR2(40) NOT NULL, 
-    CONSTRAINT fk_organizador FOREIGN KEY (organizador) REFERENCES Funcionario(cpf_funcionario) 
-    -- implementar check em duração ou tipo de evento
+    duracao VARCHAR2(40) NOT NULL,
+    CONSTRAINT fk_evento_organizador FOREIGN KEY (cpf_func) REFERENCES Funcionario(cpf_func)
+    -- Adicionar check em duração ou tipo de evento, se necessário
 );
 
--- Tabela VendeProduto
 
+-- Tabela VendeProduto (Adicionado data_compra)
 CREATE TABLE VendeProduto(
     id NUMBER PRIMARY KEY,
     id_quadrinho NUMBER NOT NULL,
     cpf_cliente CHAR(11) NOT NULL,
     cpf_funcionario CHAR(11) NOT NULL,
-    CONSTRAINT fk_id_quadrinho FOREIGN KEY (id_quadrinho) REFERENCES Quadrinhos(id), 
-    CONSTRAINT fk_cpf_cliente FOREIGN KEY (cpf_cliente) REFERENCES Cliente(cpf_cliente), 
-    CONSTRAINT fk_cpf_funcionario FOREIGN KEY (cpf_funcionario) REFERENCES Funcionario(cpf_funcionario) 
+    data_compra DATE NOT NULL, -- Novo atributo
+    CONSTRAINT fk_venda_quadrinho FOREIGN KEY (id_quadrinho) REFERENCES Quadrinhos(id),
+    CONSTRAINT fk_venda_cliente FOREIGN KEY (cpf_cliente) REFERENCES Cliente(cpf_cliente),
+    CONSTRAINT fk_venda_funcionario FOREIGN KEY (cpf_funcionario) REFERENCES Funcionario(cpf_func)
 );
 
--- Tabela Desconto
 
+-- Tabela Desconto (id_venda agora é PRIMARY KEY e FK)
 CREATE TABLE Desconto (
-    id_venda NUMBER NOT NULL,
-    valor NUMBER(5,2) NOT NULL, 
-    cupom VARCHAR2(20) PRIMARY KEY, 
-    CONSTRAINT fk_id_venda FOREIGN KEY (id_venda) REFERENCES VendeProduto(id) 
+    id_venda NUMBER PRIMARY KEY, -- Agora PRIMARY KEY
+    valor NUMBER(5,2) NOT NULL,
+    cupom VARCHAR2(20) UNIQUE, -- Mantido UNIQUE, se não for PK
+    CONSTRAINT fk_desconto_venda FOREIGN KEY (id_venda) REFERENCES VendeProduto(id)
 );
 
--- Tabela Lote
 
+-- Tabela Lote (Sem mudanças na estrutura)
 CREATE TABLE Lote(
-    id NUMBER NOT NULL,
-    valor_unitario NUMBER NOT NULL, 
+    id NUMBER PRIMARY KEY, -- Alterado para PK, era NOT NULL e depois PK
+    valor_unitario NUMBER NOT NULL,
     quantidade NUMBER NOT NULL,
-    data_de_entrega DATE NOT NULL,
-    CONSTRAINT pk_id PRIMARY KEY (id) 
+    data_de_entrega DATE NOT NULL
 );
 
--- Tabela Fornecedor
 
+-- Tabela Fornecedor (Sem mudanças na estrutura)
 CREATE TABLE Fornecedor(
     cnpj CHAR(14) PRIMARY KEY,
     nome VARCHAR2(40) NOT NULL,
     telefone VARCHAR2(20) NOT NULL
 );
 
--- Tabela Inscreve
 
+-- Tabela Inscreve (Sem mudanças na estrutura)
 CREATE TABLE Inscreve(
     id_evento NUMBER NOT NULL,
     cpf_cliente CHAR(11) NOT NULL,
-    PRIMARY KEY (id_evento, cpf_cliente), 
-    CONSTRAINT pk_id_evento FOREIGN KEY (id_evento) REFERENCES Evento(id), 
-    CONSTRAINT pk_cpf_cliente FOREIGN KEY (cpf_cliente) REFERENCES Cliente(cpf_cliente) 
+    PRIMARY KEY (id_evento, cpf_cliente),
+    CONSTRAINT fk_inscreve_evento FOREIGN KEY (id_evento) REFERENCES Evento(id),
+    CONSTRAINT fk_inscreve_cliente FOREIGN KEY (cpf_cliente) REFERENCES Cliente(cpf_cliente)
 );
 
--- Tabela Fornece
 
+-- Tabela Fornece (Sem mudanças na estrutura, mas garantindo FKs corretas)
 CREATE TABLE Fornece (
     id_lote NUMBER NOT NULL,
     id_quadrinho NUMBER NOT NULL,
-    cnpj_fornecedor CHAR(14) NOT NULL, 
-    PRIMARY KEY (id_lote, id_quadrinho, cnpj_fornecedor), 
-    CONSTRAINT fk_id_quadrinho_fornece FOREIGN KEY (id_quadrinho) REFERENCES Quadrinhos(id), 
-    CONSTRAINT fk_id_lote_fornece FOREIGN KEY (id_lote) REFERENCES Lote(id), 
-    CONSTRAINT fk_cnpj_fornecedor_fornece FOREIGN KEY (cnpj_fornecedor) REFERENCES Fornecedor(cnpj) 
+    cnpj_fornecedor CHAR(14) NOT NULL,
+    PRIMARY KEY (id_lote, id_quadrinho, cnpj_fornecedor),
+    CONSTRAINT fk_fornece_quadrinho FOREIGN KEY (id_quadrinho) REFERENCES Quadrinhos(id),
+    CONSTRAINT fk_fornece_lote FOREIGN KEY (id_lote) REFERENCES Lote(id),
+    CONSTRAINT fk_fornece_fornecedor FOREIGN KEY (cnpj_fornecedor) REFERENCES Fornecedor(cnpj)
 );
