@@ -12,6 +12,7 @@ INSERT INTO Endereco (cep, rua, numero) VALUES ('50000-000', 'Rua da Aurora', 75
 INSERT INTO Endereco (cep, rua, numero) VALUES ('40000-000', 'Av. Sete de Setembro', 600);
 
 
+
 -- Povoamento da Tabela Pessoa
 -- CPFs para Funcionários (id_endereco será 1, 2, 1, 4, etc. de acordo com a ordem de inserção acima)
 INSERT INTO Pessoa (cpf, nome, email, id_endereco) VALUES ('11122233344', 'João Silva', 'joao.silva@empresa.com', 1);
@@ -24,6 +25,7 @@ INSERT INTO Pessoa (cpf, nome, email, id_endereco) VALUES ('45678901234', 'Ricar
 INSERT INTO Pessoa (cpf, nome, email, id_endereco) VALUES ('56789012345', 'Patrícia Gomes', 'patricia.gomes@empresa.com', 8);
 INSERT INTO Pessoa (cpf, nome, email, id_endereco) VALUES ('67890123456', 'Gustavo Melo', 'gustavo.melo@empresa.com', 9);
 INSERT INTO Pessoa (cpf, nome, email, id_endereco) VALUES ('78901234567', 'Luciana Souza', 'luciana.souza@empresa.com', 10);
+
 
 
 -- CPFs para Clientes (id_endereco será 3, 2, 1, 4, etc.)
@@ -41,66 +43,28 @@ INSERT INTO Pessoa (cpf, nome, email, id_endereco) VALUES ('99999999999', 'Monic
 
 
 
-
 -- Povoamento da Tabela Funcionario
 -- O primeiro funcionário pode ser o gerente principal (cpf_supervisor = NULL)
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('11122233344', 'ativo', TO_DATE('2020-01-15', 'YYYY-MM-DD'), NULL); 
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('55566677788', 'ativo', TO_DATE('2021-03-10', 'YYYY-MM-DD'), '11122233344'); 
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('99988877766', 'inativo', TO_DATE('2022-07-20', 'YYYY-MM-DD'), '11122233344'); 
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('12345678901', 'ativo', TO_DATE('2019-05-20', 'YYYY-MM-DD'), '11122233344'); 
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('23456789012', 'ativo', TO_DATE('2023-01-01', 'YYYY-MM-DD'), '12345678901');
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('34567890123', 'ativo', TO_DATE('2020-11-11', 'YYYY-MM-DD'), '11122233344'); 
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('45678901234', 'ativo', TO_DATE('2022-03-25', 'YYYY-MM-DD'), '55566677788'); 
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('56789012345', 'ativo', TO_DATE('2021-08-05', 'YYYY-MM-DD'), '11122233344'); 
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('67890123456', 'ativo', TO_DATE('2023-06-01', 'YYYY-MM-DD'), '99988877766'); 
-
-
-
-
 INSERT INTO Funcionario (cpf_func, ativo, data_admissao, cpf_supervisor)
 VALUES ('78901234567', 'ativo', TO_DATE('2022-09-15', 'YYYY-MM-DD'), '55566677788'); 
-
-
-
 
 
 
@@ -119,7 +83,6 @@ INSERT INTO Cargo_Funcionario (cargo, salario, cpf_funcionario) VALUES ('Atenden
 
 
 
-
 -- Povoamento da Tabela Cliente
 INSERT INTO Cliente (cpf_cliente, num_eventos_participados) VALUES ('12345678900', 2);
 INSERT INTO Cliente (cpf_cliente, num_eventos_participados) VALUES ('09876543210', 0);
@@ -132,7 +95,6 @@ INSERT INTO Cliente (cpf_cliente, num_eventos_participados) VALUES ('66666666666
 INSERT INTO Cliente (cpf_cliente, num_eventos_participados) VALUES ('77777777777', 4);
 INSERT INTO Cliente (cpf_cliente, num_eventos_participados) VALUES ('88888888888', 2); 
 INSERT INTO Cliente (cpf_cliente, num_eventos_participados) VALUES ('99999999999', 1);
-
 
 
 
@@ -151,6 +113,7 @@ INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('67890123456', '71999990000'
 INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('78901234567', '81900001111');
 
 
+
 -- Telefones para clientes
 INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('12345678900', '11912345678');
 INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('12345678900', '1123456789');
@@ -164,7 +127,6 @@ INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('66666666666', '71900001111'
 INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('77777777777', '81922223333');
 INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('88888888888', '91944445555');
 INSERT INTO Telefone_Pessoa (cpf, telefone) VALUES ('99999999999', '01966667777');
-
 
 
 
@@ -192,7 +154,6 @@ VALUES (110, 'A Ascensão dos Mutantes', 'Super-herói', 50.00, 130, 'Quinzenal'
 
 
 
-
 -- Povoamento da Tabela Evento
 INSERT INTO Evento (id, cpf_func, nome_evento, data_evento, tipo_evento, duracao)
 VALUES (seq_evento.NEXTVAL, '11122233344', 'Lançamento HQ Nova', TO_DATE('2024-08-01 18:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Lançamento', '3 horas');
@@ -214,7 +175,6 @@ INSERT INTO Evento (id, cpf_func, nome_evento, data_evento, tipo_evento, duracao
 VALUES (seq_evento.NEXTVAL, '99988877766', 'Bazar de Quadrinhos Usados', TO_DATE('2025-04-05 10:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Venda', '7 horas');
 INSERT INTO Evento (id, cpf_func, nome_evento, data_evento, tipo_evento, duracao)
 VALUES (seq_evento.NEXTVAL, '12345678901', 'Convenção de HQ', TO_DATE('2025-05-10 09:00:00', 'YYYY-MM-DD HH24:MI:SS'), 'Feira', '10 horas');
-
 
 
 
@@ -242,7 +202,6 @@ VALUES (10, 108, '77777777777', '55566677788', TO_DATE('2024-06-29', 'YYYY-MM-DD
 
 
 
-
 -- Povoamento da Tabela Desconto
 INSERT INTO Desconto (id_venda, valor, cupom) VALUES (1, 10.00, 'DESCONTO10');
 INSERT INTO Desconto (id_venda, valor, cupom) VALUES (3, 5.00, 'PROMO5');
@@ -253,7 +212,6 @@ INSERT INTO Desconto (id_venda, valor, cupom) VALUES (7, 3.00, 'CLIENTEVIP');
 INSERT INTO Desconto (id_venda, valor, cupom) VALUES (8, 12.00, 'ANIVERSARIO');
 INSERT INTO Desconto (id_venda, valor, cupom) VALUES (9, 8.00, 'LEALDADE');
 INSERT INTO Desconto (id_venda, valor, cupom) VALUES (10, 25.00, 'MEGAOFERTA');
-
 
 
 
@@ -270,7 +228,6 @@ INSERT INTO Lote (id, valor_unitario, quantidade, data_de_entrega) VALUES (1009,
 
 
 
-
 -- Povoamento da Tabela Fornecedor
 INSERT INTO Fornecedor (cnpj, nome, telefone) VALUES ('12345678901234', 'Editora Alfa', '11987654321');
 INSERT INTO Fornecedor (cnpj, nome, telefone) VALUES ('98765432109876', 'Distribuidora Beta', '21998765432');
@@ -284,7 +241,6 @@ INSERT INTO Fornecedor (cnpj, nome, telefone) VALUES ('66778899001122', 'Distrib
 
 
 
-
 -- Povoamento da Tabela Inscreve
 INSERT INTO Inscreve (id_evento, cpf_cliente) VALUES (1, '12345678900');
 INSERT INTO Inscreve (id_evento, cpf_cliente) VALUES (2, '09876543210');
@@ -295,7 +251,6 @@ INSERT INTO Inscreve (id_evento, cpf_cliente) VALUES (5, '44444444444');
 INSERT INTO Inscreve (id_evento, cpf_cliente) VALUES (2, '55555555555');
 INSERT INTO Inscreve (id_evento, cpf_cliente) VALUES (6, '66666666666');
 INSERT INTO Inscreve (id_evento, cpf_cliente) VALUES (7, '77777777777');
-
 
 
 
