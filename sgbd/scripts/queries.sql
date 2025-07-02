@@ -1,3 +1,29 @@
+--1. Restrição de domínio (CHECK) para a coluna ativo 
+ALTER TABLE Funcionario
+  ADD CONSTRAINT chk_ativo
+      CHECK (ativo IN ('ativo', 'inativo'));
+
+
+--2. Busca por nome (case‑insensitive) — índice funcional 
+CREATE INDEX ix_quadrinhos_nome_upper
+       ON Quadrinhos (UPPER(nome));
+
+--3. Filtro por gênero — coluna de seletividade média 
+CREATE INDEX ix_quadrinhos_genero
+       ON Quadrinhos (genero);
+
+
+--4 Utilizando o Insert into para adicionar nos objetos a tabela quadrinhos
+INSERT INTO Quadrinhos (
+    id,        -- chave primária
+    nome,
+    genero,
+    preco,
+    estoque,
+    periodicidade,
+    edicao
+) 
+VALUES (1001,'Naruto', 'Shonen',19.90, 100,'Mensal','3');
 -- Consulta que retorna todos os Funcionários 
 SELECT nome FROM Pessoa INNER JOIN Funcionario ON Pessoa.cpf = Funcionario.cpf_func;
 
