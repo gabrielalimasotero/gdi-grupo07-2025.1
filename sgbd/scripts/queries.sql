@@ -55,3 +55,32 @@ GRANT INSERT, UPDATE, DELETE ON Cliente TO USUARIO_GESTOR_CLIENTES;
 -- Revogando privilégios de INSERT, UPDATE e DELETE em uma tabela de um usuário
 -- Provavel erro no oracle live sql
 REVOKE INSERT, UPDATE, DELETE ON Cliente FROM USUARIO_GESTOR_CLIENTES;
+
+
+--Uso do DELETE, criando uam nova tabela e povoando
+CREATE TABLE Carros (
+    id              INT PRIMARY KEY,                     -- Identificador único
+    marca           VARCHAR(50)  NOT NULL,               -- Ex.: Toyota, Ford
+    modelo          VARCHAR(50)  NOT NULL,               -- Ex.: Corolla, Fiesta
+    ano_fabricacao  INT          NOT NULL CHECK (
+                       ano_fabricacao >= 1886            -- 1886 é o “ano‑zero” do automóvel
+                     ),
+    cor             VARCHAR(20),                         -- Ex.: Preto, Vermelho
+    km_rodados      INT          CHECK (km_rodados >= 0),
+    tipo_combustivel VARCHAR(20) CHECK (
+                       tipo_combustivel IN (
+                         'Gasolina', 'Etanol', 'Diesel',
+                         'Flex', 'Elétrico', 'Híbrido'
+                       )
+                     ),
+    preco           DECIMAL(12,2)                        -- 999.999.999,99 é o teto
+);
+
+INSERT INTO Carros (
+    id,  marca,  modelo,     ano_fabricacao, cor,    km_rodados, tipo_combustivel, preco
+) VALUES
+(1, 'Toyota', 'Corolla',    2021,           'Prata', 15000,     'Flex',          120000.00),
+(2, 'Honda',  'Civic',      2019,           'Preto', 42000,     'Gasolina',      110000.00),
+(3, 'Tesla',  'Model 3',    2022,           'Branco',  8000,    'Elétrico',      280000.00);
+
+DELETE FROM Carros;
