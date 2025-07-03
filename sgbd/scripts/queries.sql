@@ -1,19 +1,19 @@
---1. Restrição de domínio (CHECK) para a coluna ativo 
+-- Restrição de domínio (CHECK) para a coluna ativo 
 ALTER TABLE Funcionario
   ADD CONSTRAINT chk_ativo
       CHECK (ativo IN ('ativo', 'inativo'));
 
 
---2. Busca por nome (case‑insensitive) — índice funcional 
+-- Busca por nome (case‑insensitive) — índice funcional 
 CREATE INDEX ix_quadrinhos_nome_upper
        ON Quadrinhos (UPPER(nome));
 
---3. Filtro por gênero — coluna de seletividade média 
+-- Filtro por gênero — coluna de seletividade média 
 CREATE INDEX ix_quadrinhos_genero
        ON Quadrinhos (genero);
 
 
---4 Utilizando o Insert into para adicionar nos objetos a tabela quadrinhos
+-- Utilizando o Insert into para adicionar nos objetos a tabela quadrinhos
 INSERT INTO Quadrinhos (
     id,        -- chave primária
     nome,
@@ -23,9 +23,21 @@ INSERT INTO Quadrinhos (
     periodicidade,
     edicao
 ) 
-VALUES (1001,'Naruto', 'Shonen',19.90, 100,'Mensal','3');
+VALUES (1001, 'Naruto', 'Shonen', 19.90, 100,'Mensal', '3');
 -- Consulta que retorna todos os Funcionários 
 SELECT nome FROM Pessoa INNER JOIN Funcionario ON Pessoa.cpf = Funcionario.cpf_func;
+
+-- Pessoas cujo CPF sejam um dos seguitnes
+SELECT * FROM Pessoa WHERE cpf IN ('12345678900', '09876543210', '11111111111');
+
+-- Remove a inscricao de um cliente no evento
+DELETE FROM Inscreve
+WHERE id_evento = 7 AND cpf_cliente = '77777777777';
+
+-- Atualizar o salario do funcionario
+UPDATE Cargo_Funcionario
+SET salario = salario * 1.1
+WHERE cpf_funcionario = '67890123456';
 
 -- Consulta que retorna todos os Gerentes e quantos funcionarios ele gerencia
 SELECT nome, COUNT(nome) as Quantos_gerencia FROM Pessoa INNER JOIN Funcionario ON Pessoa.cpf = Funcionario.cpf_supervisor GROUP BY nome;
@@ -81,32 +93,3 @@ GRANT INSERT, UPDATE, DELETE ON Cliente TO USUARIO_GESTOR_CLIENTES;
 -- Revogando privilégios de INSERT, UPDATE e DELETE em uma tabela de um usuário
 -- Provavel erro no oracle live sql
 REVOKE INSERT, UPDATE, DELETE ON Cliente FROM USUARIO_GESTOR_CLIENTES;
-
-
---Uso do DELETE, criando uam nova tabela e povoando
-CREATE TABLE Carros (
-    id              INT PRIMARY KEY,                     -- Identificador único
-    marca           VARCHAR(50)  NOT NULL,               -- Ex.: Toyota, Ford
-    modelo          VARCHAR(50)  NOT NULL,               -- Ex.: Corolla, Fiesta
-    ano_fabricacao  INT          NOT NULL CHECK (
-                       ano_fabricacao >= 1886            -- 1886 é o “ano‑zero” do automóvel
-                     ),
-    cor             VARCHAR(20),                         -- Ex.: Preto, Vermelho
-    km_rodados      INT          CHECK (km_rodados >= 0),
-    tipo_combustivel VARCHAR(20) CHECK (
-                       tipo_combustivel IN (
-                         'Gasolina', 'Etanol', 'Diesel',
-                         'Flex', 'Elétrico', 'Híbrido'
-                       )
-                     ),
-    preco           DECIMAL(12,2)                        -- 999.999.999,99 é o teto
-);
-
-INSERT INTO Carros (
-    id,  marca,  modelo,     ano_fabricacao, cor,    km_rodados, tipo_combustivel, preco
-) VALUES
-(1, 'Toyota', 'Corolla',    2021,           'Prata', 15000,     'Flex',          120000.00),
-(2, 'Honda',  'Civic',      2019,           'Preto', 42000,     'Gasolina',      110000.00),
-(3, 'Tesla',  'Model 3',    2022,           'Branco',  8000,    'Elétrico',      280000.00);
-
-DELETE FROM Carros;
