@@ -11,7 +11,7 @@ pessoa pessoa_rec;
 BEGIN
     SELECT cpf, nome, email, id_endereco INTO pessoa
     FROM Pessoa
-    WHERE cpf = '111222333449';
+    WHERE cpf = '11122233344';
     
     DBMS_OUTPUT.PUT_LINE('CPF: ' || pessoa.cpf);
     DBMS_OUTPUT.PUT_LINE('Nome: ' || pessoa.nome);
