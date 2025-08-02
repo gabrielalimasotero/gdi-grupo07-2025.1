@@ -49,7 +49,7 @@ Cargo_Funcionário(id, cargo, salário, cpf_func*)
 ### Cliente
 
 ```plaintext
-Cliente(cpf_cliente)
+Cliente(cpf_cliente, hobbies)
 ```
 
 ### Quadrinho
@@ -129,7 +129,7 @@ Telefone_Pessoa(cpf_pessoa*, telefone)
 Endereco(cep, rua, número)
 Funcionário (cpf_func, ativo, data_admissão, cpf_supervisor*)
 Cargo_Funcionário(id, cargo, salário, cpf_func*)
-Cliente (cpf_cliente)
+Cliente (cpf_cliente, hobbies)
 Quadrinhos(id, nome, gênero, preço, estoque, periodicidade, edição)
 Evento(id, nome, data, tipo_evento, duração, cpf_func*)
 VendeProduto (id, id_quadrinho*, cpf_func*, cpf_cliente*)
