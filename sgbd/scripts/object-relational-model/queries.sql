@@ -113,3 +113,69 @@ WHERE c.cpf = '12345678900';
 SELECT c.nome, h.nome_hobby
 FROM tb_cliente c, TABLE(c.hobbies) h
 WHERE c.cpf = '12345678900';
+
+-- Consulta 18: Retorna o nome dos funcionários e número de eventos organizados por todos os funcionario que organizaram mais de um evento.
+SELECT f.nome AS "Nome do Funcionário", COUNT(e.id) AS "Quantidade de Eventos Organizados"
+FROM tb_evento e
+JOIN tb_funcionario f ON e.organizador = REF(f)
+GROUP BY f.nome
+HAVING COUNT(e.id) > 1;
+
+-- Consulta 19: O nome dos clientes que gastaram um total de mais de R$ 40,00.
+SELECT c.nome AS "Nome do Cliente", SUM(DEREF(v.quadrinho).preco) AS "Gasto"
+FROM tb_cliente c, tb_venda_produto v, tb_desconto d
+WHERE v.cliente = REF(c) AND d.venda (+) = REF(v)
+GROUP BY c.cpf, c.nome
+HAVING SUM(DEREF(v.quadrinho).preco - COALESCE(d.valor, 0)) > 40.00;
+
+-- Consulta 20: O nome do quadrinho mais caro que cada um desses clientes comprou.
+SELECT c.nome AS "Nome do Cliente", VendasRankeadas.nome_quadrinho AS "Quadrinho Mais Caro Comprado"
+FROM tb_cliente c, (SELECT
+        DEREF(v.cliente).cpf AS cliente_cpf,
+        DEREF(v.quadrinho).nome AS nome_quadrinho,
+        RANK() OVER (PARTITION BY DEREF(v.cliente).cpf ORDER BY (DEREF(v.quadrinho).preco - COALESCE(d.valor, 0)) DESC) as rank_preco
+     FROM tb_venda_produto v, tb_desconto d
+     WHERE d.venda (+) = REF(v)) VendasRankeadas
+WHERE c.cpf = VendasRankeadas.cliente_cpf AND VendasRankeadas.rank_preco = 1;
+
+-- Consulta 21: Lista todos os funcionarios supervisados por João Silva que residem em endereços diferentes dele.
+SELECT f.nome AS "Nome do Funcionário", DEREF(f.endereco).exibir_endereco_completo() AS "Endereço do Funcionário"
+FROM tb_funcionario f, tb_funcionario s
+WHERE s.nome = 'João Silva' AND f.supervisor = REF(s) AND DEREF(f.endereco).id != DEREF(s.endereco).id;
+
+-- Consulta 22: Calcula a possível receita de cada gênero, cada todo o estoque disponível seja vendido
+SELECT q.genero AS "Gênero do Quadrinho", SUM(q.preco * q.estoque) AS "Receita Potencial Total (R$)"
+FROM tb_quadrinhos q
+GROUP BY q.genero
+ORDER BY "Receita Potencial Total (R$)" DESC;
+
+-- Consulta 23: Lista todos os clientes que possuem o hobby 'Leitura' e que também estão inscritos em pelo menos um evento da loja.
+SELECT DISTINCT c.nome AS "Cliente Leitor Inscrito"
+FROM tb_cliente c, tb_inscricao i, TABLE(c.hobbies) h
+WHERE i.cliente = REF(c) AND h.nome_hobby = 'Leitura';
+
+-- Consulta 24: Lista quais fornecedores abastecem a loja de quadrinhos do gênero 'Fantasia'
+SELECT DISTINCT f.nome AS "Nome do Fornecedor"
+FROM tb_fornecedor f, tb_fornecimento fo, tb_quadrinhos q
+WHERE fo.fornecedor = REF(f) AND fo.quadrinho = REF(q) AND q.genero = 'Fantasia';
+
+-- Consulta 25: Lista todos os detalhes da transação de id 1
+SELECT
+    c.nome AS "Cliente",
+    q.nome AS "Quadrinho Comprado",
+    q.preco AS "Preço Original (R$)",
+    d.valor AS "Desconto Aplicado (R$)",
+    (q.preco - COALESCE(d.valor, 0)) AS "Preço Final (R$)",
+    f.nome AS "Funcionário Responsável"
+FROM
+    tb_venda_produto v,
+    tb_cliente c,
+    tb_funcionario f,
+    tb_quadrinhos q,
+    tb_desconto d
+WHERE
+    v.id = 1
+    AND v.cliente = REF(c)
+    AND v.funcionario = REF(f)
+    AND v.quadrinho = REF(q)
+    AND d.venda (+) = REF(v);
